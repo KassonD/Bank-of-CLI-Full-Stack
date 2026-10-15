@@ -61,4 +61,6 @@ public class Transaction {
         this.amount = amount;
     }
 
+    protected Transaction() {}
+
 }
