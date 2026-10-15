@@ -8,10 +8,20 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.OneToMany;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity 
 @Table(name = "account")
 public class Account {
+
+    @OneToMany(mappedBy = "account")
+    private List<Transaction> transactions = new ArrayList<>();
+
+    public List<Transaction> geTransactions(){
+        return transactions;
+    }
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)

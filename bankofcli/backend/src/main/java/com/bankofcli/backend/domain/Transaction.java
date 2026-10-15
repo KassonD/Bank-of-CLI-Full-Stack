@@ -9,10 +9,25 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.FetchType;
 
 @Entity 
 @Table (name = "transaction")
 public class Transaction {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
+    
+    public Account getAccount(){
+        return account;
+    }
+
+    public void setAccount(Account account){
+        this.account = account;
+    }
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
