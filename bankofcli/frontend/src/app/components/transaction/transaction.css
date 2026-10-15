@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: normal;
+    color: #757D6F;
+    letter-spacing: 5px;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+input, select {
+    box-sizing: border-box;
+    padding: 8px;
+    height: 40px;
+    width: stretch;
+    border: solid 1px #262a47;
+    border-radius: 3px;
+    background-color: #0D1C42;
+    color: lightgray;
+    align-items: center;
+}
+
+input:hover, select:hover {
+    background-color: #11224d;
+}
+
+input:focus, select:focus {
+    background-color: #152858;
+    outline: none;
+}
+
+button {
+    box-sizing: border-box;
+    height: 40px;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+button:hover {
+    background-color:lightgray;
+    outline: solid 1px white;
+    outline-offset: -1px;
+}
+
+button:active {
+    background-color: #0D1C42;
+    outline: solid 1px #262a47;
+    outline-offset: -1px;
+    color: white;
+}
+
+button:not(:disabled):hover, select:hover {
+    cursor: pointer;
+}
+
+.container {
+    padding: 16px;
+    border-radius: 5px;
+    border: solid 1px #393f6a;
+    background-color: #010736;
+}
+
+/* .field-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 1;
+    gap: 16px;
+} */
+
+.stretch-field {
+    width: stretch;
+    min-width: 120px;
+}
+
+.normal-field {
+    flex: 1;
+    min-width:120px;
+}
+
+.money-field {
+    display: flex;
+    flex: 1;
+    min-width: 120px;
+    align-items: center;
+    border: solid 1px #262a47;
+    border-radius: 3px;
+    background-color: #0D1C42;
+}
+.money-field div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+}
+
+.money-field input {
+    width: stretch;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+}
+
+.money-field:hover {
+    background-color: #11224d;
+}
+
+.money-field:focus-within {
+    background-color: #152858;
+    outline: none;
+}
+
+/* .show {
+    overflow: hidden;
+    animation: show-medium-field 1s;
+}
+
+@keyframes show-medium-field {
+  0% {
+    min-width: 0px;
+  }
+
+  100% {
+    min-width: 110px;
+  }
+} */

@@ -1,0 +1,96 @@
+.container {
+    padding: 30px 5%;
+    gap: 16px;
+    border-radius: 5px;
+    border: solid 1px #393f6a;
+    background-color: #010736;
+    display: flex; 
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.container section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    /* width: stretch;
+    text-align: center; */
+}
+
+.moneyInOutText {
+    font-size: 12px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    letter-spacing: 5px;
+    color: #757D6F;
+    margin-top: 1%;
+}
+
+.moneyIn {
+    /* font-size: 25px; */
+    font-family: "Lucida Console", "Courier New", monospace;
+    color: #597928;
+    letter-spacing: 3px;
+    margin: 0;
+    font-size: clamp(1rem, 1.5vw, 2rem);
+}
+
+.moneyOut {
+    font-size: 25px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    color: #B93636;
+    letter-spacing: 3px;
+    margin: 0;
+    font-size: clamp(1rem, 1.5vw, 2rem);
+}
+
+.netMonth {
+    font-size: clamp(1rem, 1.5vw, 2rem);
+    font-family: "Lucida Console", "Courier New", monospace;
+    /* color: #B93636; */
+    letter-spacing: 3px;
+    margin: 0;
+}
+
+.analytics-icon {
+    width: 30px;
+    height: 30px;
+    border: 3px solid;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 30px;
+}
+
+.money-in-icon {
+    color: #597928;
+}
+
+.money-out-icon {
+    color: #d93636;
+}
+
+.graph-icon {
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: #597928;
+}
+
+@media (max-width: 768px) {
+    .moneyIn,
+    .moneyOut,
+    .netMonth {
+        font-size: clamp(0.9rem, 4vw, 1.3rem);
+        letter-spacing: 0;
+        overflow-wrap: break-word;
+    }
+
+    .container section {
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+

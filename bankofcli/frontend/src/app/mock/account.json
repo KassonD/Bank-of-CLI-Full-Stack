@@ -1,0 +1,42 @@
+[
+  {
+    "_id": 1,
+    "username": "imMapleFox",
+    "password": "Maple1",
+    "first_name": "John",
+    "last_name": "Doe",
+    "balance": 24310.47
+  },
+  {
+    "_id": 2,
+    "username": "imBlueOak",
+    "password": "Blue22",
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "balance": 1000.00
+  },
+  {
+    "_id": 3,
+    "username": "imSunMint",
+    "password": "Sun123",
+    "first_name": "Alex",
+    "last_name": "Brown",
+    "balance": 10000.00
+  },
+  {
+    "_id": 4,
+    "username": "imRedPine",
+    "password": "Pine7",
+    "first_name": "Emily",
+    "last_name": "Davis",
+    "balance": 2160.00
+  },
+  {
+    "_id": 5,
+    "username": "imStarLime",
+    "password": "Star5",
+    "first_name": "Michael",
+    "last_name": "Wilson",
+    "balance": 4000.00
+  }
+]

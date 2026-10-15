@@ -1,0 +1,77 @@
+* {
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+nav {
+    display: flex;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.5);
+    background: #0D1C42;
+    padding-right: 20px;
+}
+
+nav > a {
+    font-size: 20px;
+    font-weight: 500;
+    text-decoration: none;
+    color: white;
+    padding: 4px;
+    padding-bottom: 0px;
+    margin: 8px;
+    margin-top: 10px;
+    border-radius: 3px;
+}
+
+nav > a:hover {
+    background-color: #6f6f6f;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+nav > a:nth-child(2) {
+    font-weight: bold;
+    letter-spacing: -0.2px;
+}
+
+nav > p {
+    color: rgb(158, 158, 158);
+    margin: 8px;
+    margin-top: 10px;
+    padding: 4px;
+    padding-bottom: 0px;
+    font-size: 16px;
+}
+
+.vertical-dotted-line {
+  border-left: 1px dotted gray;
+  height: auto;                
+}
+
+.fill-gap {
+    flex-grow: 1;
+}
+
+nav > a.active-link {
+    color: rgb(137, 137, 137);
+    font-weight: 600;
+    background-color: rgba(181, 181, 181, 0.1);
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.5);
+}
+
+/*Mobile devices removes dotted lines and title for more space*/
+@media (max-width: 640px) {
+  nav {
+    padding-right: 8px;
+  }
+
+  nav > a:nth-child(2),
+  .vertical-dotted-line {
+    display: none;
+  }
+
+  nav > p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 30vw;
+  }
+}

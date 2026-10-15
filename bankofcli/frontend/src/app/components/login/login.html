@@ -1,0 +1,59 @@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<form (ngSubmit)="submit()" class="login-form">
+   <div class="login-selector">
+    <button type="button" (click)="setMode('login')" [class.active]="mode() === 'login'">Login</button>
+    <button type="button" (click)="setMode('register' )" [class.active]="mode() === 'register'">Register</button>
+
+  </div>
+    @if(mode()=='register'){
+        <h2>Create a new account</h2>
+    }
+    @if(mode()=='login'){
+        <h2>Login to your account</h2>
+    }
+
+    @if(mode()=='register'){
+        <label>
+            <p>First Name</p>
+            <input type="text" [(ngModel)]="firstNameInput" name="firstName" required />
+        </label>
+        <label>
+            <p>Last Name</p>
+            <input type="text" [(ngModel)]="lastNameInput" name="lastName" required />
+        </label>
+    }
+    <label>
+        <p>Username</p>
+        <input type="text" [(ngModel)]="usernameInput" name="username" required />
+    </label>
+    <label>
+        <p>Password</p>
+        <input type="password" [(ngModel)]="passwordInput" name="password" required />
+    </label>
+    @if(mode()=='register'){
+        <label>
+            <p>Confirm Password</p>
+            <input type="password" [(ngModel)]="confirmPasswordInput" name="confirmPassword" required />
+        </label>
+
+    }
+
+    @if(mode()=='login'){
+        <button type="submit" class="login-button">Login</button>
+    }
+
+    @if(mode()=='register'){
+        <button type="submit" class="login-button">Register</button>
+    }
+    
+    @if (errorMessage) {
+        <p class="error-message">{{errorMessage}}</p>
+    }
+    @if (successMessage) {
+        <p class="success-message">{{successMessage}}</p>
+    }
+</form>

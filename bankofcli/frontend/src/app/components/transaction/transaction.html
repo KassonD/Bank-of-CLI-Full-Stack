@@ -1,0 +1,25 @@
+<div class="container">
+    <h1>MAKE A TRANSACTION</h1>
+    <form #transactionForm="ngForm" (ngSubmit)="onSubmit(transactionForm)">
+        <div class="stretch-field">
+            <input type="text" name="description" [(ngModel)]="description" placeholder="Description" class="description">
+        </div>
+        <div class="normal-field">
+            <select name="type" [(ngModel)]="type">    
+                <option value="deposit">Deposit</option>
+                <option value="withdraw">Withdraw</option>
+                <option value="transfer">Transfer</option>
+            </select>
+        </div>
+        @if (type === 'transfer') {
+            <div class="normal-field">
+                <input type="number" name="username" [(ngModel)]="relatedAccountId" placeholder="Acct. Id" required>
+            </div>
+        }
+        <div class="money-field">
+            <div>$</div>
+            <input type="number" name="amount" [(ngModel)]="amount" inputmode="decimal" step="0.01" min="0.00" required>
+        </div>
+        <button type="submit" [disabled]="transactionForm.invalid">Submit</button>
+    </form>
+</div>

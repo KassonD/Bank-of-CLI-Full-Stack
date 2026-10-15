@@ -1,0 +1,169 @@
+[
+  {
+    "_id": 1,
+    "timestamp": "2026-06-22 19:10:25-07",
+    "type": "deposit",
+    "amount": 1500.00,
+    "description": "Paycheck from work",
+    "account_id": 1
+  },
+  {
+    "_id": 2,
+    "timestamp": "2026-06-23 09:15:42-07",
+    "type": "transfer",
+    "amount": 250.00,
+    "description": "Rent money",
+    "account_id": 1,
+    "related_account_id": 2
+  },
+  {
+    "_id": 3,
+    "timestamp": "2026-06-24 12:30:18-07",
+    "type": "withdraw",
+    "amount": 200.00,
+    "description": "Cash for weekend",
+    "account_id": 1
+  },
+  {
+    "_id": 4,
+    "timestamp": "2026-06-25 16:45:33-07",
+    "type": "deposit",
+    "amount": 1000.00,
+    "description": "Check from work",
+    "account_id": 2
+  },
+  {
+    "_id": 5,
+    "timestamp": "2026-06-26 10:20:11-07",
+    "type": "transfer",
+    "amount": 300.00,
+    "description": "Send money to savings",
+    "account_id": 2,
+    "related_account_id": 3
+  },
+  {
+    "_id": 6,
+    "timestamp": "2026-06-27 14:05:27-07",
+    "type": "withdraw",
+    "amount": 150.00,
+    "description": "Birthday shopping",
+    "account_id": 2
+  },
+  {
+    "_id": 7,
+    "timestamp": "2026-06-28 08:40:52-07",
+    "type": "deposit",
+    "amount": 2000.00,
+    "description": "Freelance payment",
+    "account_id": 3
+  },
+  {
+    "_id": 8,
+    "timestamp": "2026-06-29 17:25:09-07",
+    "type": "transfer",
+    "amount": 400.00,
+    "description": "Move money to checking",
+    "account_id": 3,
+    "related_account_id": 4
+  },
+  {
+    "_id": 9,
+    "timestamp": "2026-06-30 11:55:44-07",
+    "type": "withdraw",
+    "amount": 350.00,
+    "description": "Vacation cash",
+    "account_id": 3
+  },
+  {
+    "_id": 10,
+    "timestamp": "2026-07-01 13:15:26-07",
+    "type": "deposit",
+    "amount": 1250.00,
+    "description": "Paycheck",
+    "account_id": 4
+  },
+  {
+    "_id": 11,
+    "timestamp": "2026-07-02 09:35:17-07",
+    "type": "transfer",
+    "amount": 200.00,
+    "description": "Put some money aside",
+    "account_id": 4,
+    "related_account_id": 5
+  },
+  {
+    "_id": 12,
+    "timestamp": "2026-07-03 18:10:38-07",
+    "type": "withdraw",
+    "amount": 250.00,
+    "description": "Dinner and drinks",
+    "account_id": 4
+  },
+  {
+    "_id": 13,
+    "timestamp": "2026-07-04 10:45:21-07",
+    "type": "deposit",
+    "amount": 1750.00,
+    "description": "July paycheck",
+    "account_id": 5
+  },
+  {
+    "_id": 14,
+    "timestamp": "2026-07-05 15:30:49-07",
+    "type": "transfer",
+    "amount": 500.00,
+    "description": "Pay back what I owe",
+    "account_id": 5,
+    "related_account_id": 1
+  },
+  {
+    "_id": 15,
+    "timestamp": "2026-07-06 12:20:15-07",
+    "type": "withdraw",
+    "amount": 400.00,
+    "description": "Car repairs",
+    "account_id": 5
+  },
+  {
+    "_id": 16,
+    "timestamp": "2026-07-07 08:55:32-07",
+    "type": "deposit",
+    "amount": 750.00,
+    "description": "Side job payment",
+    "account_id": 1
+  },
+  {
+    "_id": 17,
+    "timestamp": "2026-07-08 14:40:06-07",
+    "type": "transfer",
+    "amount": 350.00,
+    "description": "Moving money back",
+    "account_id": 3,
+    "related_account_id": 1
+  },
+  {
+    "_id": 18,
+    "timestamp": "2026-07-09 16:15:28-07",
+    "type": "withdraw",
+    "amount": 100.00,
+    "description": "Grocery money",
+    "account_id": 2
+  },
+  {
+    "_id": 19,
+    "timestamp": "2026-07-10 11:05:43-07",
+    "type": "deposit",
+    "amount": 900.00,
+    "description": "Work check",
+    "account_id": 4
+  },
+  {
+    "_id": 20,
+    "timestamp": "2026-07-11 19:25:19-07",
+    "type": "transfer",
+    "amount": 450.00,
+    "description": "Help with bills",
+    "account_id": 5,
+    "related_account_id": 2
+  }
+]

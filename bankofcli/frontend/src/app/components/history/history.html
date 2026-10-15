@@ -1,0 +1,265 @@
+<div class="history-container">
+
+  <div class="history-header">
+
+    <h2>TRANSACTION HISTORY</h2>
+
+    <mat-form-field
+      class="filter-field"
+      appearance="outline"
+    >
+
+      <mat-label>
+        Search transactions
+      </mat-label>
+
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Search transactions"
+        #input
+      >
+
+    </mat-form-field>
+
+  </div>
+
+
+  <div class="table-container">
+
+
+
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      multiTemplateDataRows
+      class="transaction-table"
+    >
+
+
+
+
+      <ng-container matColumnDef="timestamp">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Date
+        </th>
+
+        <td
+          mat-cell
+          *matCellDef="let transaction"
+        >
+          {{ formatDate(transaction.timestamp) }}
+        </td>
+
+      </ng-container>
+
+
+
+      <!-- ======================== -->
+      <!-- TYPE COLUMN -->
+      <!-- ======================== -->
+
+      <ng-container matColumnDef="type">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Type
+        </th>
+
+        <td
+          mat-cell
+          *matCellDef="let transaction"
+          class="type-cell"
+        >
+          {{ transaction.type }}
+        </td>
+
+      </ng-container>
+
+
+
+   
+
+      <ng-container matColumnDef="amount">
+
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Amount
+        </th>
+
+
+        <td
+          mat-cell
+          *matCellDef="let transaction"
+          class="amount-cell"
+
+          [class.amount-negative]="
+            getAmountClass(transaction)
+              === 'amount-negative'
+          "
+
+          [class.amount-positive]="
+            getAmountClass(transaction)
+              === 'amount-positive'
+          "
+        >
+
+          <span>
+            {{ transaction.amount | currency }}
+          </span>
+
+
+          
+          <span
+            class="expand-arrow"
+            aria-hidden="true"
+          >
+            {{ isExpanded(transaction) ? '▲' : '▼' }}
+          </span>
+
+        </td>
+
+      </ng-container>
+
+
+
+     
+      <ng-container matColumnDef="expandedDetail">
+
+
+        <td
+          mat-cell
+          *matCellDef="let transaction"
+
+          [attr.colspan]="displayedColumns.length"
+        >
+
+
+        
+
+          <div
+            class="transaction-detail"
+
+            [class.transaction-detail-expanded]="
+              isExpanded(transaction)
+            "
+          >
+
+
+          
+          
+            <span class="description-label">
+              Description:
+            </span>
+
+
+         
+            <span class="description-text">
+
+              {{
+                transaction.description ||
+                'No description provided.'
+              }}
+
+            </span>
+
+          </div>
+
+        </td>
+
+      </ng-container>
+
+
+
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns"
+      >
+      </tr>
+
+
+
+    
+
+      <tr
+        mat-row
+
+        *matRowDef="
+          let transaction;
+          columns: displayedColumns
+        "
+
+        class="transaction-row"
+
+        [class.expanded-row]="
+          isExpanded(transaction)
+        "
+
+        (click)="toggleTransaction(transaction)"
+      >
+      </tr>
+
+
+
+      
+      <tr
+        mat-row
+
+        *matRowDef="
+          let transaction;
+          columns: ['expandedDetail']
+        "
+
+        class="detail-row"
+      >
+      </tr>
+
+
+
+  
+
+      <tr
+        class="mat-row"
+        *matNoDataRow
+      >
+
+        <td
+          class="mat-cell no-results"
+          [attr.colspan]="displayedColumns.length"
+        >
+
+          No transactions matching
+          "{{ input.value }}"
+
+        </td>
+
+      </tr>
+
+    </table>
+
+
+
+    <mat-paginator
+      class="history-paginator"
+      [pageSize]="5"
+      hidePageSize
+    >
+    </mat-paginator>
+
+
+  </div>
+
+</div>

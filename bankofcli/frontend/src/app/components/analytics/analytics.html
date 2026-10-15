@@ -1,0 +1,40 @@
+<section class="container">
+    
+    <section>
+        <div class="analytics-icon money-in-icon">↑</div>
+
+        <div>
+            <p class="moneyInOutText">
+                MONEY IN
+            </p>
+            <h4 class="moneyIn">
+                {{ moneyIn() | currency}}
+            </h4>
+        </div>
+    </section>
+
+    <section>
+        <div class="analytics-icon money-out-icon">↓</div>
+        <div>
+            <p class="moneyInOutText">
+                MONEY OUT 
+            </p>
+            <h4 class="moneyOut">
+                {{ moneyOut() | currency}}
+            </h4>
+        </div>
+    </section>
+
+    <section>
+        <div class="graph-icon" [style.color]="netThisMonth() >= 0 ? '#597928' : '#B93636'">▂▅█</div>
+        <div>
+            <p class="moneyInOutText">
+                NET THIS MONTH
+            </p>
+            <h4 class="moneyIn" [style.color]="netThisMonth() >= 0 ? '#597928' : '#B93636'">
+                {{ netThisMonth() > 0 ? '+' : '' }}{{ netThisMonth() | currency }}
+            </h4>
+        </div>
+    </section>
+    
+</section>

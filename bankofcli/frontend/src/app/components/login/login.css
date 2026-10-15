@@ -1,0 +1,140 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  padding: 4rem 0 2rem;  
+  
+  background: linear-gradient(to top, #010736, #22396F);
+
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 90%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.login-form h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #000;
+}
+
+/* Segmented control */
+.login-selector {
+  display: flex;
+  padding: 2px;
+  gap: 2px;
+  background-color: rgba(118, 118, 128, 0.12);
+  border-radius: 3px;
+}
+
+.login-selector button {
+  flex: 1;
+  padding: 0.45rem 0;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #000;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-selector button.active {
+  background-color: #fff;
+  color: #000;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04);
+}
+
+/* Fields */
+.login-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  text-align: left;
+}
+
+.login-form label p {
+  margin: 0;
+  padding-left: 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #6c6c70;
+}
+
+.login-form input {
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 3px;
+  background-color: #f2f2f7;
+  color: #000;
+  font-family: inherit;
+  font-size: 1.0625rem; /* 17px, iOS body size */
+  transition: box-shadow 0.15s ease;
+}
+
+.login-form input::placeholder {
+  color: #aeaeb2;
+}
+
+.login-form input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.5);
+}
+
+/* Primary button */
+.login-button {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 3px;
+  background-color: #22396F;
+  color: #fff;
+  font-family: inherit;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.login-button:active {
+  opacity: 0.7;
+  transform: scale(0.99);
+}
+
+.login-button:disabled {
+  background-color: #c7c7cc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #ff3b30; /* iOS system red */
+  text-align: left;
+}
+
+.success-message {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #32ec2b; 
+  text-align: left;
+}
