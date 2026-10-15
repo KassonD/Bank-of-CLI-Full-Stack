@@ -19,7 +19,7 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private List<Transaction> transactions = new ArrayList<>();
 
-    public List<Transaction> geTransactions(){
+    public List<Transaction> getTransactions(){
         return transactions;
     }
 
