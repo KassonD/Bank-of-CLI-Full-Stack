@@ -1,7 +1,7 @@
 package com.bankofcli.backend.domain;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,12 +29,31 @@ public class Transaction {
         this.account = account;
     }
 
+//////////////////
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "related_account_id")
+    private Account relatedAccount;
+
+    public Account getRelatedAccount() {
+        return relatedAccount;
+    }
+
+    public void setRelatedAccount(Account relatedAccount) {
+        this.relatedAccount = relatedAccount;
+    }
+/////////////////
+
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column (name = "timestamp")
-    private LocalDate timestamp;
+/////////////////
+    // The mock timestamp is "2020-06-22 19:10:25-07". LocalDate drops the time and
+    // offset, so history could not order two transfers made on the same day.
+    // Maps to TIMESTAMP WITH TIME ZONE in PostgreSQL.
+    @Column (name = "timestamp", nullable = false)
+    private OffsetDateTime timestamp;
+/////////////////
 
     @Column (name = "type")
     private String type;
@@ -42,7 +61,7 @@ public class Transaction {
     @Column (name = "amount")
     private BigDecimal amount;
 
-    public Transaction(LocalDate timestamp, String type, BigDecimal amount) {
+    public Transaction(OffsetDateTime timestamp, String type, BigDecimal amount) {
         this.timestamp = timestamp;
         this.type = type;
         this.amount = amount;
@@ -52,11 +71,11 @@ public class Transaction {
         return id;
     }
 
-    public LocalDate getTimestamp() {
+    public OffsetDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDate timestamp) {
+    public void setTimestamp(OffsetDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
