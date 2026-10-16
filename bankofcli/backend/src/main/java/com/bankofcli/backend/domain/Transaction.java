@@ -5,6 +5,8 @@ import java.time.OffsetDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,20 +31,6 @@ public class Transaction {
         this.account = account;
     }
 
-//////////////////
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "related_account_id")
-    private Account relatedAccount;
-
-    public Account getRelatedAccount() {
-        return relatedAccount;
-    }
-
-    public void setRelatedAccount(Account relatedAccount) {
-        this.relatedAccount = relatedAccount;
-    }
-/////////////////
-
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
@@ -55,17 +43,20 @@ public class Transaction {
     private OffsetDateTime timestamp;
 /////////////////
 
+    @Enumerated (EnumType.STRING)
     @Column (name = "type")
-    private String type;
+    private TransactionType type;
 
     @Column (name = "amount")
     private BigDecimal amount;
 
-    public Transaction(OffsetDateTime timestamp, String type, BigDecimal amount) {
+    public Transaction(LocalDate timestamp, String type, BigDecimal amount) {
         this.timestamp = timestamp;
         this.type = type;
         this.amount = amount;
     }
+
+    public Transaction() {}
 
     public int getId() {
         return id;
@@ -79,11 +70,11 @@ public class Transaction {
         this.timestamp = timestamp;
     }
 
-    public String getType() {
+    public TransactionType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TransactionType type) {
         this.type = type;
     }
 
@@ -94,7 +85,12 @@ public class Transaction {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
+    public Account getAccount(){
+        return account;
+    }
 
-    protected Transaction() {}
+    public void setAccount(Account account){
+        this.account = account;
+    }
 
 }
