@@ -41,10 +41,10 @@ public class SecurityConfig {
     // Return the configured provider to Spring's application context.
     @Bean
     public DaoAuthenticationProvider authenticationProvider(
-        CustomUserDetailsManager userDetailsManager,
+        CustomUserDetailsService userDetailsService,
         BCryptPasswordEncoder passwordEncoder){
 
-            DaoAuthenticationProvider auth = new DaoAuthenticationProvider(userDetailsManager);
+            DaoAuthenticationProvider auth = new DaoAuthenticationProvider(userDetailsService);
 
             auth.setPasswordEncoder(passwordEncoder);
             return auth;
