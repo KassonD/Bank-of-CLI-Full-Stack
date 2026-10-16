@@ -1,10 +1,22 @@
 package com.bankofcli.backend.persistence;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class AccountWriteDTO {
 
+	@NotBlank 
     private String firstName;
+
+	@NotBlank
     private String lastName;
+
+	@NotBlank
+	@Size(min = 3, max = 50) 
     private String userName;
+
+	@NotBlank
+	@Size(min = 8, max = 100) 
     private String password;
 
 	public String getFirstName() {
