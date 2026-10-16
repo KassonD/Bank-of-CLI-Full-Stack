@@ -10,7 +10,9 @@ import com.bankofcli.backend.exceptions.AccountNotFoundException;
 import com.bankofcli.backend.exceptions.InsufficientFundsException;
 import com.bankofcli.backend.exceptions.InvalidAmountException;
 import com.bankofcli.backend.repository.AccountRepository;
-
+import com.bankofcli.backend.persistence.AccountWriteDTO;
+import com.bankofcli.backend.repository.AccountRepository;
+import com.bankofcli.backend.exceptions.AccountNotFoundException;
 
 @Service
 public class AccountService {
@@ -20,6 +22,22 @@ public class AccountService {
 
     public AccountService(AccountRepository accountRepository){
         this.accountRepository = accountRepository;
+    }
+
+    @Transactional
+    public Account insertAccount(AccountWriteDTO account) {
+
+        Account newAccount = new Account(account.getFirstName(), account.getLastName(), account.getUserName(), account.getPassword());
+
+        return accountRepository.save(newAccount);
+    }
+
+    @Transactional(readOnly = true)
+    public Account getAccountByUsername(String userName) {
+
+        Account account = accountRepository.findByUserName(userName).orElseThrow(() -> new AccountNotFoundException("Account not found with username: " + userName));
+    
+        return account;
     }
 
     @Transactional(readOnly = true)
