@@ -34,13 +34,9 @@ public class AccountService {
         }
     }
 
-    private BigDecimal balanceOf(Account account){
-        return account.getBalance() == null ? BigDecimal.ZERO : account.getBalance();
-    }
-
     @Transactional(readOnly = true)
     public BigDecimal getBalance(int id){
-        return balanceOf(getAccountById(id));
+        return getAccountById(id).getBalance();
     }
 
     @Transactional
@@ -48,7 +44,7 @@ public class AccountService {
         validateAmount(amount);
 
         Account account = getAccountById(id);
-        account.setBalance(balanceOf(account).add(amount));
+        account.setBalance(account.getBalance().add(amount));
 
         return accountRepository.save(account);
     }
@@ -58,7 +54,7 @@ public class AccountService {
         validateAmount(amount);
 
         Account account = getAccountById(id);
-        BigDecimal balance = balanceOf(account);
+        BigDecimal balance = account.getBalance();
 
         if (balance.compareTo(amount) < 0){
             throw new InsufficientFundsException(
