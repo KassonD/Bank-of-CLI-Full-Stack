@@ -84,4 +84,12 @@ public class Transaction {
         this.account = account;
     }
 
+    public Account getRelatedAccount() {
+        return relatedAccount;
+    }
+
+    public void setRelatedAccount(Account relatedAccount) {
+        this.relatedAccount = relatedAccount;
+    }
+
 }
