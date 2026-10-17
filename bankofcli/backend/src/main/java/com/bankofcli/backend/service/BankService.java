@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bankofcli.backend.persistence.DepositDTO;
 import com.bankofcli.backend.persistence.TransferDTO;
 import com.bankofcli.backend.persistence.WithdrawDTO;
+import com.bankofcli.backend.persistence.TransactionWriteDTO;
 
 @Service 
 public class BankService {
@@ -25,5 +26,10 @@ public class BankService {
     @Transactional
     public void withdraw(WithdrawDTO withdrawDTO) {
         
+    }
+
+    @Transactional
+    public TransactionWriteDTO transfer(TransferDTO transferDTO) {
+        return transactionService.transfer(transferDTO);
     }
 }
