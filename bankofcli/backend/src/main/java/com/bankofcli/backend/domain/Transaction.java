@@ -19,6 +19,18 @@ import jakarta.persistence.FetchType;
 @Table (name = "transaction")
 public class Transaction {
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
+    
+    public Account getAccount(){
+        return account;
+    }
+
+    public void setAccount(Account account){
+        this.account = account;
+    }
+
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
@@ -75,13 +87,6 @@ public class Transaction {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
-    }
-    public Account getAccount(){
-        return account;
-    }
-
-    public void setAccount(Account account){
-        this.account = account;
     }
 
     public Account getRelatedAccount() {
