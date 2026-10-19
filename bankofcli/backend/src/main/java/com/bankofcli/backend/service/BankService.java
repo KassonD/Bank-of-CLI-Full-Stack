@@ -1,5 +1,7 @@
 package com.bankofcli.backend.service;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +24,37 @@ public class BankService {
     }
 
     @Transactional
-    public void deposit(DepositDTO depositDTO) {
+    public TransactionWriteDTO deposit(DepositDTO depositDTO) {
+        int accountId = depositDTO.getAccountId();
+        BigDecimal amount = depositDTO.getAmount();
 
+        TransactionWriteDTO transaction = new TransactionWriteDTO();
+        transaction.setType(TransactionType.DEPOSIT);
+        transaction.setAmount(amount);
+        transaction.setAccountId(accountId);
+        transaction.setRelatedAccountId(-1);
+
+        accountService.deposit(accountId, amount);
+        transactionService.insertTransaction(transaction);
+        
+        return transaction;
     }
 
     @Transactional
-    public void withdraw(WithdrawDTO withdrawDTO) {
+    public TransactionWriteDTO withdraw(WithdrawDTO withdrawDTO) {
+        int accountId = withdrawDTO.getAccountId();
+        BigDecimal amount = withdrawDTO.getAmount();
 
+        TransactionWriteDTO transaction = new TransactionWriteDTO();
+        transaction.setType(TransactionType.WITHDRAW);
+        transaction.setAmount(amount);
+        transaction.setAccountId(accountId);
+        transaction.setRelatedAccountId(-1);
+
+        accountService.deposit(accountId, amount);
+        transactionService.insertTransaction(transaction);
+        
+        return transaction;
     }
 
     @Transactional
