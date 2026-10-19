@@ -28,9 +28,13 @@ public class TransactionService {
                 ? accountService.getAccountById(transaction.getRelatedAccountId())
                 : null;
 
-        Transaction newTransaction = new Transaction(transaction.getType(), transaction.getAmount());
-        newTransaction.setAccount(account);
-        newTransaction.setRelatedAccount(relatedAccount);
+        Transaction newTransaction = new Transaction(
+            transaction.getType(), 
+            transaction.getAmount(), 
+            account, 
+            relatedAccount, 
+            transaction.getDescription()
+        );
 
         return transactionRepository.save(newTransaction);
     }
