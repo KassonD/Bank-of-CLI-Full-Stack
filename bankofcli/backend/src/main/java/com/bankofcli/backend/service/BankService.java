@@ -33,6 +33,7 @@ public class BankService {
         transaction.setAmount(amount);
         transaction.setAccountId(accountId);
         transaction.setRelatedAccountId(-1);
+        transaction.setDescription(depositDTO.getDescription());
 
         accountService.deposit(accountId, amount);
         transactionService.insertTransaction(transaction);
@@ -50,8 +51,9 @@ public class BankService {
         transaction.setAmount(amount);
         transaction.setAccountId(accountId);
         transaction.setRelatedAccountId(-1);
+        transaction.setDescription(withdrawDTO.getDescription());
 
-        accountService.deposit(accountId, amount);
+        accountService.withdraw(accountId, amount);
         transactionService.insertTransaction(transaction);
         
         return transaction;
