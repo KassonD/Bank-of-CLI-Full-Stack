@@ -40,10 +40,6 @@ public class BankService {
             throw new InvalidAmountException("Cannot transfer money to the same account");
         }
 
-        // Lock both accounts in ascending ID order to prevent deadlocks
-        accountService.getAccountForUpdate(Math.min(senderId, recipientId));
-        accountService.getAccountForUpdate(Math.max(senderId, recipientId));
-
         accountService.withdraw(senderId, transferDTO.getAmount());
         accountService.deposit(recipientId, transferDTO.getAmount());
 
