@@ -3,7 +3,6 @@ package com.bankofcli.backend.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bankofcli.backend.domain.Account;
 import com.bankofcli.backend.domain.TransactionType;
 import com.bankofcli.backend.exceptions.InvalidAmountException;
 import com.bankofcli.backend.persistence.DepositDTO;
@@ -41,21 +40,21 @@ public class BankService {
             throw new InvalidAmountException("Cannot transfer money to the same account");
         }
 
-        // Lock both accounts in ascending ID order; also confirms both exist (404 otherwise)
+        // Lock both accounts in ascending ID order to prevent deadlocks
         accountService.getAccountForUpdate(Math.min(senderId, recipientId));
         accountService.getAccountForUpdate(Math.max(senderId, recipientId));
 
-        // The existing rules: amount > 0, sufficient funds, balance update
-        Account sender = accountService.withdraw(senderId, transferDTO.getAmount());
-        Account recipient = accountService.deposit(recipientId, transferDTO.getAmount());
+        accountService.withdraw(senderId, transferDTO.getAmount());
+        accountService.deposit(recipientId, transferDTO.getAmount());
 
-        transactionService.createTransaction(sender, recipient, TransactionType.TRANSFER, transferDTO.getAmount());
+        TransactionWriteDTO transaction = new TransactionWriteDTO();
+        transaction.setType(TransactionType.TRANSFER);
+        transaction.setAmount(transferDTO.getAmount());
+        transaction.setAccountId(senderId);
+        transaction.setRelatedAccountId(recipientId);
 
-        TransactionWriteDTO result = new TransactionWriteDTO();
-        result.setType(TransactionType.TRANSFER);
-        result.setAmount(transferDTO.getAmount());
-        result.setAccountId(senderId);
-        result.setRelatedAccountId(recipientId);
-        return result;
+        transactionService.insertTransaction(transaction);
+
+        return transaction;
     }
 }
