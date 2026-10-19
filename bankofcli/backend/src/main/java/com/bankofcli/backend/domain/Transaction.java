@@ -1,7 +1,7 @@
 package com.bankofcli.backend.domain;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +24,7 @@ public class Transaction {
     private int id;
 
     @Column (name = "timestamp")
-    private LocalDate timestamp;
+    private LocalDateTime timestamp;
 
     @Enumerated (EnumType.STRING)
     @Column (name = "type")
@@ -41,7 +41,7 @@ public class Transaction {
     @JoinColumn(name = "related_account_id", nullable = true)
     private Account relatedAccount;
 
-    public Transaction(LocalDate timestamp, TransactionType type, BigDecimal amount) {
+    public Transaction(LocalDateTime timestamp, TransactionType type, BigDecimal amount) {
         this.timestamp = timestamp;
         this.type = type;
         this.amount = amount;
@@ -53,11 +53,11 @@ public class Transaction {
         return id;
     }
 
-    public LocalDate getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDate timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -82,6 +82,14 @@ public class Transaction {
 
     public void setAccount(Account account){
         this.account = account;
+    }
+
+    public Account getRelatedAccount() {
+        return relatedAccount;
+    }
+    
+    public void setRelatedAccount(Account relatedAccount) {
+        this.relatedAccount = relatedAccount;
     }
 
 }
