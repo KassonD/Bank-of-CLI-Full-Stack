@@ -35,9 +35,8 @@ public class AccountService {
     @Transactional(readOnly = true)
     public Account getAccountByUsername(String userName) {
 
-        Account account = accountRepository.findByUserName(userName).orElseThrow(() -> new AccountNotFoundException("Account not found with username: " + userName));
-    
-        return account;
+        return accountRepository.findByUserName(userName).orElseThrow(() -> new AccountNotFoundException("Account not found with username: " + userName));
+  
     }
 
     @Transactional(readOnly = true)
