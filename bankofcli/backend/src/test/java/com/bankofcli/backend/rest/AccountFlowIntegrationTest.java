@@ -71,6 +71,10 @@ class AccountFlowIntegrationTest {
                 + ",\"amount\":" + amount + "}";
     }
 
+    private static String amountJson(int accountId, String amount) {
+        return "{\"accountId\":" + accountId + ",\"amount\":" + amount + "}";
+    }
+
     @Test
     @DisplayName("POST /api/accounts creates an account and persists it")
     void createsAccount() throws Exception {
@@ -206,6 +210,55 @@ class AccountFlowIntegrationTest {
         assertEquals(0, senderBalance.compareTo(new BigDecimal("500.00")),
                 "the sender's debit must be rolled back when the recipient does not exist; was "
                         + senderBalance);
+        assertEquals(0, transactionRepository.count(), "no transaction should be recorded");
+    }
+
+    @Test
+    @DisplayName("POST /api/transactions/deposit increases the balance and records a DEPOSIT")
+    void depositIncreasesBalance() throws Exception {
+        Account account = savedAccount("depositor", "100.00");
+
+        mockMvc.perform(post("/api/transactions/deposit")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(amountJson(account.getId(), "250.00")))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.type").value("DEPOSIT"));
+
+        BigDecimal balance = accountRepository.findById(account.getId()).orElseThrow().getBalance();
+        assertEquals(0, balance.compareTo(new BigDecimal("350.00")),
+                "deposit should credit the account; was " + balance);
+        assertEquals(1, transactionRepository.count());
+    }
+
+    @Test
+    @DisplayName("POST /api/transactions/withdraw decreases the balance")
+    void withdrawDecreasesBalance() throws Exception {
+        Account account = savedAccount("withdrawer", "500.00");
+
+        mockMvc.perform(post("/api/transactions/withdraw")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(amountJson(account.getId(), "200.00")))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.type").value("WITHDRAW"));
+
+        BigDecimal balance = accountRepository.findById(account.getId()).orElseThrow().getBalance();
+        assertEquals(0, balance.compareTo(new BigDecimal("300.00")),
+                "withdraw must debit the account, not credit it; balance was " + balance);
+    }
+
+    @Test
+    @DisplayName("Withdrawing more than the balance returns 400 and changes nothing")
+    void withdrawBeyondBalanceIsRejected() throws Exception {
+        Account account = savedAccount("broke", "50.00");
+
+        mockMvc.perform(post("/api/transactions/withdraw")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(amountJson(account.getId(), "100000.00")))
+                .andExpect(status().isBadRequest());
+
+        BigDecimal balance = accountRepository.findById(account.getId()).orElseThrow().getBalance();
+        assertEquals(0, balance.compareTo(new BigDecimal("50.00")),
+                "an over-withdrawal must leave the balance untouched; was " + balance);
         assertEquals(0, transactionRepository.count(), "no transaction should be recorded");
     }
 
