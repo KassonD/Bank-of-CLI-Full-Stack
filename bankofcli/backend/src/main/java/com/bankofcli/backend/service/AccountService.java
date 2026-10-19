@@ -84,4 +84,10 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
+    @Transactional
+    public Account getAccountForUpdate(int id) {
+        return accountRepository.findByIdForUpdate(id)
+                .orElseThrow(() -> new AccountNotFoundException("No account found with id " + id));
+    }
+
 }
