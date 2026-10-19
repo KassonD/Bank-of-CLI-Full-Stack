@@ -1,6 +1,12 @@
 package com.bankofcli.backend.service;
 
+import com.bankofcli.backend.domain.Account;
+import com.bankofcli.backend.domain.Transaction;
+import com.bankofcli.backend.repository.TransactionRepository;
+import com.bankofcli.backend.persistence.TransactionWriteDTO;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TransactionService {
