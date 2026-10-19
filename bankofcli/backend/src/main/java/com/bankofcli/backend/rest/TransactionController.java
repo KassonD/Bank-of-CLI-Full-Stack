@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bankofcli.backend.persistence.DepositDTO;
+import com.bankofcli.backend.persistence.TransactionResponseDTO;
 import com.bankofcli.backend.persistence.TransactionWriteDTO;
 import com.bankofcli.backend.persistence.TransferDTO;
 import com.bankofcli.backend.persistence.WithdrawDTO;
@@ -25,14 +26,14 @@ public class TransactionController {
     }
 
     @PostMapping("/deposit")
-    public ResponseEntity<TransactionWriteDTO> deposit(@RequestBody DepositDTO depositDTO) {
-        TransactionWriteDTO result = bankService.deposit(depositDTO);
+    public ResponseEntity<TransactionResponseDTO> deposit(@RequestBody DepositDTO depositDTO) {
+        TransactionResponseDTO result = bankService.deposit(depositDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<TransactionWriteDTO> withdraw(@RequestBody WithdrawDTO withdrawDTO) {
-        TransactionWriteDTO result = bankService.withdraw(withdrawDTO);
+    public ResponseEntity<TransactionResponseDTO> withdraw(@RequestBody WithdrawDTO withdrawDTO) {
+        TransactionResponseDTO result = bankService.withdraw(withdrawDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
