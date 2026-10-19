@@ -7,6 +7,7 @@ public class TransferDTO {
     private BigDecimal amount;
     private int accountId;
     private int relatedAccountId;
+    private String description;
 
     public BigDecimal getAmount() {
         return amount;
@@ -25,5 +26,11 @@ public class TransferDTO {
     }
     public void setRelatedAccountId(int relatedAccountId) {
         this.relatedAccountId = relatedAccountId;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
