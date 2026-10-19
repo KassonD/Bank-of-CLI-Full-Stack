@@ -41,8 +41,8 @@ public class Transaction {
     @JoinColumn(name = "related_account_id", nullable = true)
     private Account relatedAccount;
 
-    public Transaction(LocalDateTime timestamp, TransactionType type, BigDecimal amount) {
-        this.timestamp = timestamp;
+    public Transaction(TransactionType type, BigDecimal amount) {
+        this.timestamp = LocalDateTime.now();
         this.type = type;
         this.amount = amount;
     }
@@ -82,14 +82,6 @@ public class Transaction {
 
     public void setAccount(Account account){
         this.account = account;
-    }
-
-    public Account getRelatedAccount() {
-        return relatedAccount;
-    }
-    
-    public void setRelatedAccount(Account relatedAccount) {
-        this.relatedAccount = relatedAccount;
     }
 
 }
