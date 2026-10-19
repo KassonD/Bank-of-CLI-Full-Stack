@@ -89,8 +89,6 @@ public class BankService {
             transaction.getTimestamp(),
             transaction.getType(),
             transaction.getAmount(),
-            transaction.getAccount().getId(),
-            transaction.getRelatedAccount().getId(),
             transaction.getDescription()
         );
     }
