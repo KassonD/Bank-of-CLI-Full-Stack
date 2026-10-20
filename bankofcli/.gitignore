@@ -1,1 +1,6 @@
-.env
+### VS Code ###
+.vscode
+
+### Local DB credentials ###
+application-local.properties
+src/main/resources/application.properties

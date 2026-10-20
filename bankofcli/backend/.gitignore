@@ -30,7 +30,8 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-.vscode/
+.vscode
 
 ### Local DB credentials ###
 application-local.properties
+src/main/resources/application.properties
