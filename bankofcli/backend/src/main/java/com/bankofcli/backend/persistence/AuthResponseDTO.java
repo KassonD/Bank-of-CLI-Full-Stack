@@ -40,6 +40,15 @@ public class AuthResponseDTO {
         this.balance = balance;
     }
 
+    public static AuthResponseDTO from(Account account) {
+        return new AuthResponseDTO(
+            account.getUserName(),
+            account.getId(),
+            account.getFirstName(),
+            account.getLastName(),
+            account.getBalance());
+    }
+
     
 
 }

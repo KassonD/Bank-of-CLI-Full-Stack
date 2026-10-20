@@ -21,17 +21,17 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
-@Configuration 
+@Configuration
 public class SecurityConfig {
 
-    //  Bcrypt turns a password into a one-way hash 
-    //  that you store in the database instead of the password itself.
+    // Bcrypt turns a password into a one-way hash
+    // that you store in the database instead of the password itself.
 
-    //  Why bcrypt and not SHA-256?
-    //  SHA-256 is also a one-way hash, but it was designed to be fast.
-    //  Bcrypt is deliberately slow.
-    @Bean 
-    public BCryptPasswordEncoder passwordEncoder(){
+    // Why bcrypt and not SHA-256?
+    // SHA-256 is also a one-way hash, but it was designed to be fast.
+    // Bcrypt is deliberately slow.
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -41,16 +41,16 @@ public class SecurityConfig {
     // Return the configured provider to Spring's application context.
     @Bean
     public DaoAuthenticationProvider authenticationProvider(
-        CustomUserDetailsService userDetailsService,
-        BCryptPasswordEncoder passwordEncoder){
+            CustomUserDetailsService userDetailsService,
+            BCryptPasswordEncoder passwordEncoder) {
 
-            DaoAuthenticationProvider auth = new DaoAuthenticationProvider(userDetailsService);
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider(userDetailsService);
 
-            auth.setPasswordEncoder(passwordEncoder);
-            return auth;
+        auth.setPasswordEncoder(passwordEncoder);
+        return auth;
 
-        }
-    
+    }
+
     // defines how spring security authenticates users
     // our AuthService uses this
     @Bean
@@ -59,8 +59,8 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-
-    // defines our global CORS settings, allowed methods, and AllowCredentials supports HttpOnly cookies
+    // defines our global CORS settings, allowed methods, and AllowCredentials
+    // supports HttpOnly cookies
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -77,43 +77,36 @@ public class SecurityConfig {
         return source;
     }
 
-
-    // this filter chain determines which routes are protected 
+    // this filter chain determines which routes are protected
     @Bean
-        public SecurityFilterChain filterChain(
+    public SecurityFilterChain filterChain(
             HttpSecurity http,
             @Value("${app.security.csrf-cookie.same-site}") String csrfCookieSameSite)
             throws Exception {
-        
+
         http.authorizeHttpRequests(configurer -> configurer
-    
+
                 .requestMatchers(
                         "/api/auth/register",
                         "/api/auth/login",
                         "/api/auth/logout",
                         "/api/auth/csrf")
-                    .permitAll()
+                .permitAll()
 
-                .anyRequest().authenticated()
-        );
+                .anyRequest().authenticated());
 
-        // this ties everything together before building our configurations 
+        // this ties everything together before building our configurations
         // the csrfTokenRepositry is built-in spring security, and it provides
-        // csrf tokens to the client - this is a defense against csrf attacks 
-        AuthenticationEntryPoint apiAuthenticationEntryPoint =
-            (request, response, exception) -> response.setStatus(401);
+        // csrf tokens to the client - this is a defense against csrf attacks
+        AuthenticationEntryPoint apiAuthenticationEntryPoint = (request, response, exception) -> response
+                .setStatus(401);
         http.httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(apiAuthenticationEntryPoint));
         http.cors(Customizer.withDefaults());
-        CookieCsrfTokenRepository csrfTokenRepository =
-            CookieCsrfTokenRepository.withHttpOnlyFalse();
+        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
         csrfTokenRepository.setCookieCustomizer(cookie -> cookie.sameSite(csrfCookieSameSite));
         http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository));
 
         return http.build();
     }
-
-
-
-
 
 }
