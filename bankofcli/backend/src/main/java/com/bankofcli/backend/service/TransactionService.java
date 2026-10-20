@@ -23,9 +23,10 @@ public class TransactionService {
     public Transaction insertTransaction(TransactionWriteDTO transaction) {
 
         Account account = accountService.getAccountById(transaction.getAccountId());
+        Integer relatedAccountId = transaction.getRelatedAccountId();
 
-        Account relatedAccount = transaction.getRelatedAccountId() > 0
-                ? accountService.getAccountById(transaction.getRelatedAccountId())
+        Account relatedAccount = relatedAccountId != null && relatedAccountId > 0
+                ? accountService.getAccountById(relatedAccountId)
                 : null;
 
         Transaction newTransaction = new Transaction(
