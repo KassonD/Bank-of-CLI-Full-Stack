@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankofcli.backend.domain.Account;
 import com.bankofcli.backend.domain.Transaction;
 import com.bankofcli.backend.domain.TransactionType;
 import com.bankofcli.backend.exceptions.InvalidAmountException;
@@ -27,14 +28,14 @@ public class BankService {
 
     @Transactional
     public TransactionResponseDTO deposit(DepositDTO depositDTO) {
-        int accountId = depositDTO.getAccountId();
+        Integer accountId = depositDTO.getAccountId();
         BigDecimal amount = depositDTO.getAmount();
 
         TransactionWriteDTO transactionWriteDTO = new TransactionWriteDTO();
         transactionWriteDTO.setType(TransactionType.DEPOSIT);
         transactionWriteDTO.setAmount(amount);
         transactionWriteDTO.setAccountId(accountId);
-        transactionWriteDTO.setRelatedAccountId(-1);
+        transactionWriteDTO.setRelatedAccountId(null);
         transactionWriteDTO.setDescription(depositDTO.getDescription());
 
         accountService.deposit(accountId, amount);
@@ -52,7 +53,7 @@ public class BankService {
         transactionWriteDTO.setType(TransactionType.WITHDRAW);
         transactionWriteDTO.setAmount(amount);
         transactionWriteDTO.setAccountId(accountId);
-        transactionWriteDTO.setRelatedAccountId(-1);
+        transactionWriteDTO.setRelatedAccountId(null);
         transactionWriteDTO.setDescription(withdrawDTO.getDescription());
 
         accountService.withdraw(accountId, amount);
@@ -62,33 +63,38 @@ public class BankService {
     }
 
     @Transactional
-    public TransactionWriteDTO transfer(TransferDTO transferDTO) {
-        int senderId = transferDTO.getAccountId();
-        int recipientId = transferDTO.getRelatedAccountId();
+    public TransactionResponseDTO transfer(TransferDTO transferDTO) {
+        Integer senderId = transferDTO.getAccountId();
+        Integer recipientId = transferDTO.getRelatedAccountId();
+        BigDecimal amount = transferDTO.getAmount();
 
-        if (senderId == recipientId) {
+        if (senderId.equals(recipientId)) {
             throw new InvalidAmountException("Cannot transfer money to the same account");
         }
 
-        accountService.withdraw(senderId, transferDTO.getAmount());
-        accountService.deposit(recipientId, transferDTO.getAmount());
+        TransactionWriteDTO transactionWriteDTO = new TransactionWriteDTO();
+        transactionWriteDTO.setType(TransactionType.TRANSFER);
+        transactionWriteDTO.setAmount(amount);
+        transactionWriteDTO.setAccountId(senderId);
+        transactionWriteDTO.setRelatedAccountId(recipientId);
+        transactionWriteDTO.setDescription(transferDTO.getDescription());
 
-        TransactionWriteDTO transaction = new TransactionWriteDTO();
-        transaction.setType(TransactionType.TRANSFER);
-        transaction.setAmount(transferDTO.getAmount());
-        transaction.setAccountId(senderId);
-        transaction.setRelatedAccountId(recipientId);
+        accountService.withdraw(senderId, amount);
+        accountService.deposit(recipientId, amount);
+        Transaction transaction = transactionService.insertTransaction(transactionWriteDTO);
 
-        transactionService.insertTransaction(transaction);
-
-        return transaction;
+        return mapTransactionResponseDTO(transaction);
     }
-
+        
     private TransactionResponseDTO mapTransactionResponseDTO(Transaction transaction) {
+        Account relatedAccount = transaction.getRelatedAccount();
         return new TransactionResponseDTO(
+            transaction.getId(),
             transaction.getTimestamp(),
             transaction.getType(),
             transaction.getAmount(),
+            transaction.getAccount().getId(),
+            relatedAccount != null ? relatedAccount.getId() : null,
             transaction.getDescription()
         );
     }
