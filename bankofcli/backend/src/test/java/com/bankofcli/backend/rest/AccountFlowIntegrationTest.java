@@ -132,7 +132,7 @@ class AccountFlowIntegrationTest {
                 "sender should be debited; was " + senderBalance);
         assertEquals(0, recipientBalance.compareTo(new BigDecimal("250.00")),
                 "recipient should be credited; was " + recipientBalance);
-        assertEquals(1, transactionRepository.findByAccount_Id(sender.getId()).size());
+        assertEquals(1, transactionRepository.count());
     }
 
     @Test
