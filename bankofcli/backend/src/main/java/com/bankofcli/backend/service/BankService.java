@@ -86,9 +86,12 @@ public class BankService {
 
     private TransactionResponseDTO mapTransactionResponseDTO(Transaction transaction) {
         return new TransactionResponseDTO(
+            transaction.getId(),
             transaction.getTimestamp(),
             transaction.getType(),
             transaction.getAmount(),
+            transaction.getAccount().getId(),
+            transaction.getRelatedAccount().getId(),
             transaction.getDescription()
         );
     }
