@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class DepositDTO {
     
     private BigDecimal amount;
-    private int accountId;
+    private Integer accountId;
 	private String description;
 
 	public BigDecimal getAmount() {
@@ -14,10 +14,10 @@ public class DepositDTO {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
-	public int getAccountId() {
+	public Integer getAccountId() {
 		return accountId;
 	}
-	public void setAccountId(int accountId) {
+	public void setAccountId(Integer accountId) {
 		this.accountId = accountId;
 	}
     public String getDescription() {
