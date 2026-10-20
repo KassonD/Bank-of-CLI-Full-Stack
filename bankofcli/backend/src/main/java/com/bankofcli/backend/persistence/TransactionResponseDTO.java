@@ -6,15 +6,16 @@ import java.time.LocalDateTime;
 import com.bankofcli.backend.domain.TransactionType;
 
 public class TransactionResponseDTO {
-    private final int transactionId;
+    private final Integer transactionId;
     private final LocalDateTime timestamp;
     private final TransactionType type;
     private final BigDecimal amount;
-    private final int accountId;
-    private final int relatedAccountId;
+    private final Integer accountId;
+    private final Integer relatedAccountId;
 	private final String description;
 
-    public TransactionResponseDTO(int transactionId, LocalDateTime timestamp, TransactionType type, BigDecimal amount, int accountId, int relatedAccountId, String description) {
+    public TransactionResponseDTO(Integer transactionId, LocalDateTime timestamp, TransactionType type, 
+            BigDecimal amount, Integer accountId, Integer relatedAccountId, String description) {
         this.transactionId = transactionId;
         this.timestamp = timestamp;
         this.type = type;
@@ -24,7 +25,7 @@ public class TransactionResponseDTO {
         this.description = description;
     }
 
-    public int getTransactionId() {
+    public Integer getTransactionId() {
         return transactionId;
     }
 
@@ -40,11 +41,11 @@ public class TransactionResponseDTO {
         return amount;
     }
 
-    public int getAccountId() {
+    public Integer getAccountId() {
         return accountId;
     }
 
-    public int getRelatedAccountId() {
+    public Integer getRelatedAccountId() {
         return relatedAccountId;
     }
 

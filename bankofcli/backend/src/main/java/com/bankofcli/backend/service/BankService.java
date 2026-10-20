@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bankofcli.backend.domain.Account;
 import com.bankofcli.backend.domain.Transaction;
 import com.bankofcli.backend.domain.TransactionType;
 import com.bankofcli.backend.exceptions.InvalidAmountException;
@@ -27,14 +28,14 @@ public class BankService {
 
     @Transactional
     public TransactionResponseDTO deposit(DepositDTO depositDTO) {
-        int accountId = depositDTO.getAccountId();
+        Integer accountId = depositDTO.getAccountId();
         BigDecimal amount = depositDTO.getAmount();
 
         TransactionWriteDTO transactionWriteDTO = new TransactionWriteDTO();
         transactionWriteDTO.setType(TransactionType.DEPOSIT);
         transactionWriteDTO.setAmount(amount);
         transactionWriteDTO.setAccountId(accountId);
-        transactionWriteDTO.setRelatedAccountId(-1);
+        transactionWriteDTO.setRelatedAccountId(null);
         transactionWriteDTO.setDescription(depositDTO.getDescription());
 
         accountService.deposit(accountId, amount);
@@ -52,7 +53,7 @@ public class BankService {
         transactionWriteDTO.setType(TransactionType.WITHDRAW);
         transactionWriteDTO.setAmount(amount);
         transactionWriteDTO.setAccountId(accountId);
-        transactionWriteDTO.setRelatedAccountId(-1);
+        transactionWriteDTO.setRelatedAccountId(null);
         transactionWriteDTO.setDescription(withdrawDTO.getDescription());
 
         accountService.withdraw(accountId, amount);
@@ -85,13 +86,14 @@ public class BankService {
     }
 
     private TransactionResponseDTO mapTransactionResponseDTO(Transaction transaction) {
+        Account relatedAccount = transaction.getRelatedAccount();
         return new TransactionResponseDTO(
             transaction.getId(),
             transaction.getTimestamp(),
             transaction.getType(),
             transaction.getAmount(),
             transaction.getAccount().getId(),
-            transaction.getRelatedAccount().getId(),
+            relatedAccount != null ? relatedAccount.getId() : null,
             transaction.getDescription()
         );
     }
