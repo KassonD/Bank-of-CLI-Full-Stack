@@ -32,5 +32,5 @@ build/
 ### VS Code ###
 .vscode/
 
-## spring boot ##
-application.properties
+### Local DB credentials ###
+application-local.properties

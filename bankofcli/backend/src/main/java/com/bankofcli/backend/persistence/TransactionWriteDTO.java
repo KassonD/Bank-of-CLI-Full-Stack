@@ -10,6 +10,7 @@ public class TransactionWriteDTO {
     private BigDecimal amount;
     private int accountId;
     private int relatedAccountId;
+	private String description;
 
 	public TransactionType getType() {
 		return type;
@@ -35,6 +36,11 @@ public class TransactionWriteDTO {
 	public void setRelatedAccountId(int relatedAccountId) {
 		this.relatedAccountId = relatedAccountId;
 	}
-
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
     
 }
