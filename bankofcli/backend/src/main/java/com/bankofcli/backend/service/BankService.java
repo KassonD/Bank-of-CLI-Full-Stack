@@ -63,28 +63,29 @@ public class BankService {
     }
 
     @Transactional
-    public TransactionWriteDTO transfer(TransferDTO transferDTO) {
-        int senderId = transferDTO.getAccountId();
-        int recipientId = transferDTO.getRelatedAccountId();
+    public TransactionResponseDTO transfer(TransferDTO transferDTO) {
+        Integer senderId = transferDTO.getAccountId();
+        Integer recipientId = transferDTO.getRelatedAccountId();
+        BigDecimal amount = transferDTO.getAmount();
 
-        if (senderId == recipientId) {
+        if (senderId.equals(recipientId)) {
             throw new InvalidAmountException("Cannot transfer money to the same account");
         }
 
-        accountService.withdraw(senderId, transferDTO.getAmount());
-        accountService.deposit(recipientId, transferDTO.getAmount());
+        TransactionWriteDTO transactionWriteDTO = new TransactionWriteDTO();
+        transactionWriteDTO.setType(TransactionType.TRANSFER);
+        transactionWriteDTO.setAmount(amount);
+        transactionWriteDTO.setAccountId(senderId);
+        transactionWriteDTO.setRelatedAccountId(recipientId);
+        transactionWriteDTO.setDescription(transferDTO.getDescription());
 
-        TransactionWriteDTO transaction = new TransactionWriteDTO();
-        transaction.setType(TransactionType.TRANSFER);
-        transaction.setAmount(transferDTO.getAmount());
-        transaction.setAccountId(senderId);
-        transaction.setRelatedAccountId(recipientId);
+        accountService.withdraw(senderId, amount);
+        accountService.deposit(recipientId, amount);
+        Transaction transaction = transactionService.insertTransaction(transactionWriteDTO);
 
-        transactionService.insertTransaction(transaction);
-
-        return transaction;
+        return mapTransactionResponseDTO(transaction);
     }
-
+        
     private TransactionResponseDTO mapTransactionResponseDTO(Transaction transaction) {
         Account relatedAccount = transaction.getRelatedAccount();
         return new TransactionResponseDTO(
