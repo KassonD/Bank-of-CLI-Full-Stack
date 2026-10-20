@@ -82,31 +82,26 @@ class AccountFlowIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(newAccountJson("ada")))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.userName").value("ada"))
+                .andExpect(jsonPath("$.username").value("ada"))
                 .andExpect(jsonPath("$.firstName").value("Ada"));
 
         assertTrue(accountRepository.findByUserName("ada").isPresent());
     }
 
     @Test
-    @Disabled("Defect: GET /api/accounts returns 500. The controller returns the Account entity, "
-            + "whose lazy `transactions` collection cannot be serialised once the transaction has "
-            + "closed (spring.jpa.open-in-view=false), so Jackson throws "
-            + "HttpMessageNotWritableException. Fix by returning a response DTO instead of the "
-            + "entity, then remove this @Disabled.")
-    @DisplayName("GET /api/accounts finds an existing account by userName")
+    @DisplayName("GET /api/accounts finds an existing account by username")
     void fetchesAccountByUserName() throws Exception {
         savedAccount("ada", "0.00");
 
-        mockMvc.perform(get("/api/accounts").param("userName", "ada"))
+        mockMvc.perform(get("/api/accounts").param("username", "ada"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userName").value("ada"));
+                .andExpect(jsonPath("$.username").value("ada"));
     }
 
     @Test
     @DisplayName("GET /api/accounts with an unknown userName returns 404 through the exception handler")
     void unknownUserNameReturnsNotFound() throws Exception {
-        mockMvc.perform(get("/api/accounts").param("userName", "does-not-exist"))
+        mockMvc.perform(get("/api/accounts").param("username", "does-not-exist"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.message").exists());
@@ -263,14 +258,11 @@ class AccountFlowIntegrationTest {
     }
 
     // ---------------------------------------------------------------------
-    // The two below document real defects. Delete the @Disabled when the
+    // The one below documents a real defect. Delete the @Disabled when the
     // defect is fixed and the test should go green.
     // ---------------------------------------------------------------------
 
     @Test
-    @Disabled("Defect: AccountController returns the Account entity, so the password field is "
-            + "serialized into every response. Fix by returning a response DTO without the "
-            + "password, then remove this @Disabled.")
     @DisplayName("Account responses do not contain the password")
     void accountResponseDoesNotExposePassword() throws Exception {
         mockMvc.perform(post("/api/accounts")
