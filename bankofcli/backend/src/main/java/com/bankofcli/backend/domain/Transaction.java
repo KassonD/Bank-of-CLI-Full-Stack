@@ -21,7 +21,7 @@ public class Transaction {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column (name = "timestamp")
     private LocalDateTime timestamp;
@@ -57,7 +57,7 @@ public class Transaction {
 
     public Transaction() {}
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

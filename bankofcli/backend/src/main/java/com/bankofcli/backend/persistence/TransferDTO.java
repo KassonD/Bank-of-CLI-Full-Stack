@@ -5,8 +5,9 @@ import java.math.BigDecimal;
 public class TransferDTO {
 
     private BigDecimal amount;
-    private int accountId;
-    private int relatedAccountId;
+    private Integer accountId;
+    private Integer relatedAccountId;
+    private String description;
 
     public BigDecimal getAmount() {
         return amount;
@@ -14,16 +15,22 @@ public class TransferDTO {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
-    public int getAccountId() {
+    public Integer getAccountId() {
         return accountId;
     }
-    public void setAccountId(int accountId) {
+    public void setAccountId(Integer accountId) {
         this.accountId = accountId;
     }
-    public int getRelatedAccountId() {
+    public Integer getRelatedAccountId() {
         return relatedAccountId;
     }
-    public void setRelatedAccountId(int relatedAccountId) {
+    public void setRelatedAccountId(Integer relatedAccountId) {
         this.relatedAccountId = relatedAccountId;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
