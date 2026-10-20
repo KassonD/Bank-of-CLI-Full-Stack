@@ -64,11 +64,11 @@ public class BankService {
 
     @Transactional
     public TransactionResponseDTO transfer(TransferDTO transferDTO) {
-        int senderId = transferDTO.getAccountId();
-        int recipientId = transferDTO.getRelatedAccountId();
+        Integer senderId = transferDTO.getAccountId();
+        Integer recipientId = transferDTO.getRelatedAccountId();
         BigDecimal amount = transferDTO.getAmount();
 
-        if (senderId == recipientId) {
+        if (senderId.equals(recipientId)) {
             throw new InvalidAmountException("Cannot transfer money to the same account");
         }
 
@@ -85,7 +85,7 @@ public class BankService {
 
         return mapTransactionResponseDTO(transaction);
     }
-
+        
     private TransactionResponseDTO mapTransactionResponseDTO(Transaction transaction) {
         Account relatedAccount = transaction.getRelatedAccount();
         return new TransactionResponseDTO(
