@@ -8,7 +8,7 @@ import { getAccounts, getTransactionsByAccountId } from '../mock/api';
 type StoredAccount = Account & { id: number; balance: number };
 
 // What the UI sees: an existing account, without the password.
-export type AccountSummary = Omit<StoredAccount, 'password' | 'lastName'>;
+export type AccountSummary = Omit<StoredAccount, 'password'>;
 
 export interface TransactionResult {
   account: AccountSummary;   // account state AFTER the transaction

@@ -25,7 +25,7 @@ public class AccountController {
 
     // this basically converts the Account entity retrieved from the service into a DTO that the frontend can use to display the data it needs
     private AccountResponseDTO toResponseDTO(Account account) { 
-        return new AccountResponseDTO(account.getId(), account.getFirstName(), account.getUserName(), account.getBalance()); // this is the data that will be displayed on the account overview
+        return new AccountResponseDTO(account.getId(), account.getFirstName(), account.getLastName(), account.getUserName(), account.getBalance()); // this is the data that will be displayed on the account overview
     }
 
     public AccountController(AccountService accountService) {
