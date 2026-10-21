@@ -1,7 +1,5 @@
 import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Transaction } from '../../contracts/transaction';
-import { getTransactionsByAccountId } from '../../mock/api';
 import { BankService } from '../../service/bank.service';
 
 @Component({

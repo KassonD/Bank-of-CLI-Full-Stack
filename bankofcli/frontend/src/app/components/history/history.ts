@@ -154,6 +154,7 @@ export class History implements AfterViewInit {
 
  
   isExpanded(transaction: Transaction): boolean {
-    return this.expandedTransaction?.id === transaction.id;
+    return this.expandedTransaction != null
+      && this.expandedTransaction.transactionId === transaction.transactionId;
   }
 }

@@ -1,7 +1,6 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive} from '@angular/router';
 import { User } from '../../service/user';
-import { getAccountById } from '../../mock/api';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 

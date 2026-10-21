@@ -4,7 +4,7 @@
 //   | 'transfer';
 
 export interface Transaction {
-  id: number;
+  transactionId: number;
   timestamp: string;
   type: string;
   amount: number;
