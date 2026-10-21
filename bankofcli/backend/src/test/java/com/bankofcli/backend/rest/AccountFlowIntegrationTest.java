@@ -62,7 +62,7 @@ class AccountFlowIntegrationTest {
 
     private static String newAccountJson(String userName) {
         return "{\"firstName\":\"Ada\",\"lastName\":\"Lovelace\","
-                + "\"userName\":\"" + userName + "\",\"password\":\"s3cret\"}";
+                + "\"username\":\"" + userName + "\",\"password\":\"s3cret\"}";
     }
 
     private static String transferJson(int fromId, int toId, String amount) {

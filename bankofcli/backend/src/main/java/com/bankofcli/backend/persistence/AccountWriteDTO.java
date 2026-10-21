@@ -1,9 +1,12 @@
 package com.bankofcli.backend.persistence;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AccountWriteDTO {
 
     private String firstName;
     private String lastName;
+    @JsonProperty("username")
     private String userName;
     private String password;
 
