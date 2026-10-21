@@ -33,21 +33,26 @@ public class Account {
     @Column (name = "last_name")
     private String lastName;
 
-    @Column (name = "balance")
-    private BigDecimal balance;
+    //commonly used constraints in financial applications. 
+    // max 17 digis + 2 decimal places.
+    // zero by default
+    @Column (name = "balance", nullable=false, precision = 19, scale = 2)
+    private BigDecimal balance =  BigDecimal.ZERO;
 
-    @Column (name = "user_name")
-    private String userName;
+    //username must be unique
+    @Column (name = "user_name", unique = true, nullable = false)
+    private String username;
 
-    @Column (name = "password")
+    //password cant be nullable, length is 100 to fix Bcrypt hash
+    @Column (name = "password", nullable = false, length = 100)
     private String password;
 
     public Account() {}
 
-    public Account(String firstName, String lastName, String userName, String password) {
+    public Account(String firstName, String lastName, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
     }
 
@@ -79,12 +84,12 @@ public class Account {
         this.balance = balance;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -94,5 +99,7 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    
     
 }

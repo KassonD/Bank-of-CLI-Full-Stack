@@ -1,16 +1,10 @@
 package com.bankofcli.backend.rest;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-
-import java.math.BigDecimal;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.bankofcli.backend.domain.Account;
@@ -82,31 +81,26 @@ class AccountFlowIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(newAccountJson("ada")))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.userName").value("ada"))
+                .andExpect(jsonPath("$.username").value("ada"))
                 .andExpect(jsonPath("$.firstName").value("Ada"));
 
-        assertTrue(accountRepository.findByUserName("ada").isPresent());
+        assertTrue(accountRepository.findByUsername("ada").isPresent());
     }
 
     @Test
-    @Disabled("Defect: GET /api/accounts returns 500. The controller returns the Account entity, "
-            + "whose lazy `transactions` collection cannot be serialised once the transaction has "
-            + "closed (spring.jpa.open-in-view=false), so Jackson throws "
-            + "HttpMessageNotWritableException. Fix by returning a response DTO instead of the "
-            + "entity, then remove this @Disabled.")
-    @DisplayName("GET /api/accounts finds an existing account by userName")
+    @DisplayName("GET /api/accounts finds an existing account by username")
     void fetchesAccountByUserName() throws Exception {
         savedAccount("ada", "0.00");
 
-        mockMvc.perform(get("/api/accounts").param("userName", "ada"))
+        mockMvc.perform(get("/api/accounts").param("username", "ada"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userName").value("ada"));
+                .andExpect(jsonPath("$.username").value("ada"));
     }
 
     @Test
     @DisplayName("GET /api/accounts with an unknown userName returns 404 through the exception handler")
     void unknownUserNameReturnsNotFound() throws Exception {
-        mockMvc.perform(get("/api/accounts").param("userName", "does-not-exist"))
+        mockMvc.perform(get("/api/accounts").param("username", "does-not-exist"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.message").exists());
@@ -132,7 +126,7 @@ class AccountFlowIntegrationTest {
                 "sender should be debited; was " + senderBalance);
         assertEquals(0, recipientBalance.compareTo(new BigDecimal("250.00")),
                 "recipient should be credited; was " + recipientBalance);
-        assertEquals(1, transactionRepository.findByAccount_Id(sender.getId()).size());
+        assertEquals(1, transactionRepository.count());
     }
 
     @Test
@@ -263,14 +257,11 @@ class AccountFlowIntegrationTest {
     }
 
     // ---------------------------------------------------------------------
-    // The two below document real defects. Delete the @Disabled when the
+    // The one below documents a real defect. Delete the @Disabled when the
     // defect is fixed and the test should go green.
     // ---------------------------------------------------------------------
 
     @Test
-    @Disabled("Defect: AccountController returns the Account entity, so the password field is "
-            + "serialized into every response. Fix by returning a response DTO without the "
-            + "password, then remove this @Disabled.")
     @DisplayName("Account responses do not contain the password")
     void accountResponseDoesNotExposePassword() throws Exception {
         mockMvc.perform(post("/api/accounts")
@@ -291,7 +282,7 @@ class AccountFlowIntegrationTest {
                         .content(newAccountJson("ada")))
                 .andExpect(status().isCreated());
 
-        Account saved = accountRepository.findByUserName("ada").orElseThrow();
+        Account saved = accountRepository.findByUsername("ada").orElseThrow();
         assertNotNull(saved.getBalance(), "a new account must have a balance, not null");
         assertEquals(0, saved.getBalance().compareTo(BigDecimal.ZERO));
     }

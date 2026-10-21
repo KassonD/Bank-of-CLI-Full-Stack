@@ -1,0 +1,55 @@
+package com.bankofcli.backend.persistence;
+
+import java.math.BigDecimal;
+
+import com.bankofcli.backend.domain.Account;
+import com.fasterxml.jackson.annotation.JsonProperty; 
+
+public class AuthResponseDTO {
+
+    private final String username;
+    private final Integer id;
+    private final String firstName;
+    private final String lastName;
+    private final BigDecimal balance;
+    @JsonProperty("username")
+    public String getUsername() {
+        return username;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public AuthResponseDTO(String username, Integer id, String firstName, String lastName, BigDecimal balance) {
+        this.username = username;
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.balance = balance;
+    }
+
+    public static AuthResponseDTO from(Account account) {
+        return new AuthResponseDTO(
+            account.getUsername(),
+            account.getId(),
+            account.getFirstName(),
+            account.getLastName(),
+            account.getBalance());
+    }
+
+    
+
+}
