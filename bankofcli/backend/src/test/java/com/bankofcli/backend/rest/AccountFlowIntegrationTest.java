@@ -84,7 +84,7 @@ class AccountFlowIntegrationTest {
                 .andExpect(jsonPath("$.username").value("ada"))
                 .andExpect(jsonPath("$.firstName").value("Ada"));
 
-        assertTrue(accountRepository.findByUserName("ada").isPresent());
+        assertTrue(accountRepository.findByUsername("ada").isPresent());
     }
 
     @Test
@@ -282,7 +282,7 @@ class AccountFlowIntegrationTest {
                         .content(newAccountJson("ada")))
                 .andExpect(status().isCreated());
 
-        Account saved = accountRepository.findByUserName("ada").orElseThrow();
+        Account saved = accountRepository.findByUsername("ada").orElseThrow();
         assertNotNull(saved.getBalance(), "a new account must have a balance, not null");
         assertEquals(0, saved.getBalance().compareTo(BigDecimal.ZERO));
     }
