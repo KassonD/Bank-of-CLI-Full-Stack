@@ -27,15 +27,15 @@ public class AccountService {
     @Transactional
     public Account insertAccount(AccountWriteDTO account) {
 
-        Account newAccount = new Account(account.getFirstName(), account.getLastName(), account.getUserName(), account.getPassword());
+        Account newAccount = new Account(account.getFirstName(), account.getLastName(), account.getUsername(), account.getPassword());
 
         return accountRepository.save(newAccount);
     }
 
     @Transactional(readOnly = true)
-    public Account getAccountByUsername(String userName) {
+    public Account getAccountByUsername(String username) {
 
-        return accountRepository.findByUserName(userName).orElseThrow(() -> new AccountNotFoundException("Account not found with username: " + userName));
+        return accountRepository.findByUsername(username).orElseThrow(() -> new AccountNotFoundException("Account not found with username: " + username));
   
     }
 
