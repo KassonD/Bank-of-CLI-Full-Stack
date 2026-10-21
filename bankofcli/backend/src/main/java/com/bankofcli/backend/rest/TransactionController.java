@@ -25,7 +25,7 @@ public class TransactionController {
     private final BankService bankService;
     private final TransactionService transactionService;
 
-    public TransactionController(BankService bankService) {
+    public TransactionController(BankService bankService, TransactionService transactionService) {
         this.bankService = bankService;
         this.transactionService = transactionService;
     }
