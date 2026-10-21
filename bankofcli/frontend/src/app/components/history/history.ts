@@ -115,17 +115,17 @@ export class History implements AfterViewInit {
 
   getAmountClass(transaction: Transaction): string {
   
-    if (transaction.type === 'deposit') {
+    if (transaction.type.toLocaleLowerCase() === 'deposit') {
       return 'amount-positive';
     }
 
    
-    if (transaction.type === 'withdraw') {
+    if (transaction.type.toLocaleLowerCase() === 'withdraw') {
       return 'amount-negative';
     }
 
   
-    if (transaction.type === 'transfer') {
+    if (transaction.type.toLocaleLowerCase() === 'transfer') {
     
       if (transaction.accountId === this.accountId) {
         return 'amount-negative';
