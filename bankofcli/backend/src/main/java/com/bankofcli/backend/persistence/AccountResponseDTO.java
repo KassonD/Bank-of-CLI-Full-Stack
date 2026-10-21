@@ -31,7 +31,6 @@ public class AccountResponseDTO {
 		return lastName;
 	}
 
-	@JsonProperty("userName")
     public String getUsername() {
         return username;
     }

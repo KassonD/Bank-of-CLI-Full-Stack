@@ -3,6 +3,7 @@ package com.bankofcli.backend.persistence;
 import java.math.BigDecimal;
 
 import com.bankofcli.backend.domain.Account;
+import com.fasterxml.jackson.annotation.JsonProperty; 
 
 public class AuthResponseDTO {
 
@@ -11,7 +12,8 @@ public class AuthResponseDTO {
     private final String firstName;
     private final String lastName;
     private final BigDecimal balance;
-
+    
+    @JsonProperty("username")
     public String getUserName() {
         return userName;
     }
