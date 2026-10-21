@@ -30,7 +30,6 @@ export class Login {
 
 
   errorMessage = signal('');
-  successMessage = ''
 
   private router = inject(Router);
   private userService = inject(User);
@@ -55,7 +54,6 @@ export class Login {
   setMode(newMode: 'login' | 'register') {
     this.mode.set(newMode);
     this.errorMessage.set('');
-    this.successMessage = '';
     this.passwordInput = '';
     this.confirmPasswordInput = '';
   }
@@ -66,7 +64,6 @@ export class Login {
    */
   attemptRegister() {
     this.errorMessage.set('');
-    this.successMessage = '';
 
     if (!this.firstNameInput || !this.lastNameInput) {
       this.errorMessage.set('first and last name are required.');

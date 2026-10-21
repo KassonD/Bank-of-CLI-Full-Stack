@@ -41,10 +41,10 @@ describe('User', () => {
 
   it('should report logged in when the session flag is set', () => {
     sessionStorage.setItem('authenticated', 'true');
-    expect(service.isLoggedIn()).toBeTrue();
+    expect(service.isAuthenticated()).toBeTrue();
   });
 
   it('should report not logged in when the session flag is absent', () => {
-    expect(service.isLoggedIn()).toBeFalse();
+    expect(service.isAuthenticated()).toBeFalse();
   });
 });

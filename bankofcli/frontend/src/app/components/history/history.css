@@ -244,13 +244,9 @@
   TRANSACTION TYPE
   =========================
 
-  The actual data can still be:
-
-  deposit
-  withdraw
-  transfer
-
-  This makes it LOOK like:
+  The API sends DEPOSIT, WITHDRAW, TRANSFER.
+  The template lowercases that, and this rule
+  makes it look like:
 
   Deposit
   Withdraw

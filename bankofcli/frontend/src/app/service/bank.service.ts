@@ -43,7 +43,6 @@ export class BankService {
     return transactions[0]?.timestamp ?? '';
   });
   ////////////////////////////////////////////////////////////////
-  readonly hasTransactions = computed(() => this._transactions().length > 0);
   // True while any request made through this service is in flight (for spinners).
   readonly isLoading = computed(() => this._pending() > 0);
 
@@ -108,16 +107,6 @@ export class BankService {
       assertSufficientFunds(this.balance(), amount);
       return this.api.transfer(fromId, toAccountId, amount,description);
     });
-  }
-
-  // Helper for the history table: 'in' means money came into the active
-  // account (deposit or incoming transfer), 'out' means it left.
-  getDirection(transaction: Transaction): 'in' | 'out' {
-    if (transaction.type === 'deposit') return 'in';
-    if (transaction.type === 'transfer') {
-      return transaction.accountId === this._account()?.id ? 'out' : 'in';
-    }
-    return 'out';
   }
 
   // Runs a money request, reloads the account, and puts the new transaction at the front of the history.

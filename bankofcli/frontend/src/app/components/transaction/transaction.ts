@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { BankService } from '../../service/bank.service';
 import { FormsModule, NgForm } from '@angular/forms'; 
 import { ToastService } from '../../service/toast';
@@ -14,23 +14,12 @@ export class Transaction {
   private readonly bankService = inject(BankService);
   private readonly toastService = inject(ToastService);
 
-  accountId = sessionStorage.getItem("accountId");
-
   type: 'deposit' | 'withdraw' | 'transfer' = 'deposit';
   relatedAccountId: number | null = null;
   amount: number = 0.00;
   description: string = ''
 
-  
-
-  // ngOnInit() {
-  //   console.log("init");
-  //   this.bankService.loadAccount(this.accountId).subscribe();
-  // }
-
   onSubmit(form: NgForm) {
-    console.log(this.accountId, this.type, this.relatedAccountId, this.amount, this.description);
-
     switch (this.type) {
       case 'deposit':
         this.bankService.deposit(this.amount, this.description).subscribe({
