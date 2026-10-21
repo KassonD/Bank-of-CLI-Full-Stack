@@ -46,7 +46,10 @@ export class Login {
     this.userService.login(this.usernameInput, this.passwordInput).subscribe({
       next: () => {this.router.navigate(['dashboard']);},
       error: (err) => {
-        this.errorMessage.set(httpErrorMessage(err, 'login failed, please try again'));
+        const message = err instanceof HttpErrorResponse && err.status === 401
+          ? 'Wrong username or password.'
+          : httpErrorMessage(err, 'Something went wrong. Please try again.');
+        this.errorMessage.set(message);
       }
     });
   }

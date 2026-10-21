@@ -7,6 +7,8 @@
     <p class="tagline">Check a balance, move money, and review recent activity.</p>
     @if (!userService.isAuthenticated()) {
       <a routerLink="/login">Log in</a>
+    } @else {
+      <a routerLink="/dashboard">Go to dashboard</a>
     }
   </div>
 </div>

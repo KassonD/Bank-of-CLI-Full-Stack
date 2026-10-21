@@ -12,9 +12,9 @@ import { Spinner } from '../spinner/spinner';
 export class AccountOverview {
 
   private readonly bankService = inject(BankService)
+  readonly account = this.bankService.account;
   readonly balance = this.bankService.balance;
   readonly lastUpdated = this.bankService.lastUpdated;
-  readonly isLoading = this.bankService.isLoading;
   readonly firstName = this.bankService.firstName;
   //username = '';
 

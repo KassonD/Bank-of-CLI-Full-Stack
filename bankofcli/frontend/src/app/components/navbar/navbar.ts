@@ -1,8 +1,6 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive} from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive} from '@angular/router';
 import { User } from '../../service/user';
-import { filter } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   imports: [RouterLink, RouterLinkActive],
@@ -13,22 +11,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class Navbar {
   protected readonly userService = inject(User);
 
-  username = signal("");
-
   private readonly router = inject(Router);
-  constructor() {
-  //every time the route changes, the user name is refreshed
-  this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        takeUntilDestroyed(inject(DestroyRef)),
-      )
-      .subscribe(() => this.refresh());
-  }
-
-  private refresh() {
-    this.username.set(this.userService.currentUserName() ?? "")
-  }
 
   private logout() {
     this.userService.logout().subscribe();

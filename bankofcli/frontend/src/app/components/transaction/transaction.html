@@ -18,7 +18,7 @@
         }
         <div class="money-field">
             <div>$</div>
-            <input type="number" name="amount" [(ngModel)]="amount" inputmode="decimal" step="0.01" min="0.00" required>
+            <input type="number" name="amount" [(ngModel)]="amount" inputmode="decimal" step="0.01" min="0.01" required>
         </div>
         <button type="submit" [disabled]="transactionForm.invalid">Submit</button>
     </form>

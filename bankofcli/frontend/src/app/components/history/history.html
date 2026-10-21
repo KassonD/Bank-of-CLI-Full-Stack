@@ -242,8 +242,11 @@
           [attr.colspan]="displayedColumns.length"
         >
 
-          No transactions matching
-          "{{ input.value }}"
+          @if (input.value) {
+            No transactions matching "{{ input.value }}"
+          } @else {
+            No transactions yet
+          }
 
         </td>
 
