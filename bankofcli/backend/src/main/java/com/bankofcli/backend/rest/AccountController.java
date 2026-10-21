@@ -32,12 +32,12 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @GetMapping(params = "username")
-    public AccountResponseDTO getAccountByUserNameAccount(@RequestParam String username) {
+    @GetMapping(params = "userName")
+    public AccountResponseDTO getAccountByUserNameAccount(
+        @RequestParam("userName") String userName) {
 
-        Account account = accountService.getAccountByUsername(username);
-
-        return toResponseDTO(account); // sends the DTO containing firName, username, and Balance to the frontend
+        Account account = accountService.getAccountByUsername(userName);
+        return toResponseDTO(account);
     }
 
     @GetMapping("/{id}")
