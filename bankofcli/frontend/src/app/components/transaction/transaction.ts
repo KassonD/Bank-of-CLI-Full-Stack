@@ -2,6 +2,7 @@ import { Component, Input, inject } from '@angular/core';
 import { BankService } from '../../service/bank.service';
 import { FormsModule, NgForm } from '@angular/forms'; 
 import { ToastService } from '../../service/toast';
+import { httpErrorMessage } from '../../errors/http.errors';
 
 @Component({
   imports: [FormsModule],
@@ -37,7 +38,7 @@ export class Transaction {
             this.toastService.success("Deposit successful!"),
             this.resetForm(form);
           },
-          error: err => this.toastService.error(err.message)
+          error: err => this.toastService.error(httpErrorMessage(err, 'Something went wrong. Please try again.'))
       });
         break;
     
@@ -47,7 +48,7 @@ export class Transaction {
             this.toastService.success("Withdraw successful!")
             this.resetForm(form);
           },
-          error: err => this.toastService.error(err.message)
+          error: err => this.toastService.error(httpErrorMessage(err, 'Something went wrong. Please try again.'))
         });
         break;
     
@@ -57,7 +58,7 @@ export class Transaction {
             this.toastService.success("Transfer successful!");
             this.resetForm(form);
           },
-          error: err => this.toastService.error(err.message)
+          error: err => this.toastService.error(httpErrorMessage(err, 'Something went wrong. Please try again.'))
         });
         break;
       

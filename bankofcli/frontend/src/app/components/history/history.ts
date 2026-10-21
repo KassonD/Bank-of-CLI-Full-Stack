@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { Transaction } from '../../contracts/transaction';
 import { BankService } from '../../service/bank.service';
+import { User } from '../../service/user';
 
 @Component({
   selector: 'app-history',
@@ -33,9 +34,9 @@ import { BankService } from '../../service/bank.service';
 export class History implements AfterViewInit {
   
   private readonly bankService = inject(BankService);
-
+  private readonly userService = inject(User);
  
-  accountId = Number(sessionStorage.getItem('accountId') || 0);
+  accountId = this.userService.currentUserId();
 
 
   displayedColumns: string[] = ['timestamp', 'type', 'amount'];

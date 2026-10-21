@@ -19,7 +19,7 @@ export class Analytics {
     let total = 0;
 
     for (const transaction of this.transactions()) {
-      if (transaction.type == 'deposit') {
+      if (transaction.type.toLocaleLowerCase() == 'deposit') {
         total += transaction.amount;
       }
     }
@@ -31,7 +31,7 @@ export class Analytics {
     let total = 0;
 
     for (const transaction of this.transactions()) {
-      if (transaction.type == 'withdraw' || transaction.type == 'transfer') {
+      if (transaction.type.toLocaleLowerCase() == 'withdraw' || transaction.type.toLocaleLowerCase() == 'transfer') {
         total += transaction.amount;
       }
     }

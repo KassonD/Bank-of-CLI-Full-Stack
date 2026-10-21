@@ -28,17 +28,11 @@ export class Navbar {
   }
 
   private refresh() {
-    const stored = sessionStorage.getItem("accountId");
-    if (!stored) {
-      this.userName.set('');
-      return;
-    }
-    const account = getAccountById(Number(stored));
-    this.userName.set(account?.username ?? '');
+    this.userName.set(this.userService.currentUserName() ?? "")
   }
 
   private logout() {
-    this.userService.logout();
+    this.userService.logout().subscribe();
     this.router.navigate(['/'], { onSameUrlNavigation: 'reload' });
   }
 
