@@ -16,10 +16,15 @@ export class Analytics {
   transactions = this.bankService.transactions;
 
   moneyIn = computed(() => {
+    const accountId = this.bankService.account()?.id;
     let total = 0;
 
     for (const transaction of this.transactions()) {
-      if (transaction.type.toLocaleLowerCase() == 'deposit') {
+      const type = transaction.type.toLocaleLowerCase();
+      if (type === 'deposit') {
+        total += transaction.amount;
+      }
+      if (type === 'transfer' && transaction.relatedAccountId === accountId) {
         total += transaction.amount;
       }
     }
@@ -28,10 +33,15 @@ export class Analytics {
   });
 
   moneyOut = computed(() => {
+    const accountId = this.bankService.account()?.id;
     let total = 0;
 
     for (const transaction of this.transactions()) {
-      if (transaction.type.toLocaleLowerCase() == 'withdraw' || transaction.type.toLocaleLowerCase() == 'transfer') {
+      const type = transaction.type.toLocaleLowerCase();
+      if (type === 'withdraw') {
+        total += transaction.amount;
+      }
+      if (type === 'transfer' && transaction.accountId === accountId) {
         total += transaction.amount;
       }
     }
