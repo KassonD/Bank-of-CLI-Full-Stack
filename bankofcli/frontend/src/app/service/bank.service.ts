@@ -63,6 +63,11 @@ export class BankService {
     );
   }
 
+  // Reads another account without replacing the loaded one. Used for transfer names.
+  lookupAccount(id: number): Observable<AccountSummary> {
+    return this.api.getAccount(id);
+  }
+
   // Replaces the stored history with a fresh list for the loaded account.
   refreshTransactions(): Observable<Transaction[]> {
     return this.track(

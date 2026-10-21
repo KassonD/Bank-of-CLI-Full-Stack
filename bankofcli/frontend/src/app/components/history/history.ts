@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, inject, signal, untracked, ViewChild } from '@angular/core';
 
 import { CurrencyPipe } from '@angular/common';
 
@@ -37,6 +37,7 @@ export class History implements AfterViewInit {
   private readonly userService = inject(User);
  
   accountId = this.userService.currentUserId();
+  private readonly relatedAccountNames = signal(new Map<number, string>());
 
 
   displayedColumns: string[] = ['timestamp', 'type', 'amount'];
@@ -57,7 +58,9 @@ export class History implements AfterViewInit {
   constructor() {
    
     effect(() => {
-      this.dataSource.data = this.bankService.transactions();
+      const transactions = this.bankService.transactions();
+      this.dataSource.data = transactions;
+      untracked(() => this.loadPartyNames(transactions));
     });
   }
 
@@ -112,6 +115,45 @@ export class History implements AfterViewInit {
     return `${monthName} ${day}, ${year}`;
   }
 
+
+  // Other account on a transfer. accountId is the sender, relatedAccountId is the recipient.
+  // Builds the first part of the message based on transfer type (EX: Sent to: {FirstName}, {LastName})
+  transferParty(transaction: Transaction): { label: string; accountId: number } | null {
+    if (transaction.type.toLocaleLowerCase() !== 'transfer') {
+      return null;
+    }
+    if (transaction.accountId === this.accountId && transaction.relatedAccountId != null) {
+      return { label: 'Sent to:', accountId: transaction.relatedAccountId };
+    }
+    if (transaction.relatedAccountId === this.accountId) {
+      return { label: 'Received from:', accountId: transaction.accountId };
+    }
+    return null;
+  }
+
+  //Formats a line for related party 
+  formatPartyName(accountId: number): string {
+    const name = this.relatedAccountNames().get(accountId);
+    const account = `(Account # ${accountId})`;
+    return name ? `${name} ${account}` : account;
+  }
+
+  //Loads related account names for each Transaction (So we can easily populate Sent to/Recieved from on transfers)
+  private loadPartyNames(transactions: Transaction[]): void {
+    for (const transaction of transactions) {
+      const id = this.transferParty(transaction)?.accountId;
+      if (id == null || this.accountNames().has(id)) {
+        continue;
+      }
+      this.accountNames.update((current) => new Map(current).set(id, ''));
+      this.bankService.lookupAccount(id).subscribe({
+        next: (account) => {
+          const name = [account.firstName, account.lastName].join(', ') || account.username;
+          this.accountNames.update((current) => new Map(current).set(id, name));
+        },
+      });
+    }
+  }
 
   getAmountClass(transaction: Transaction): string {
   

@@ -160,20 +160,21 @@
 
           
           
-            <span class="description-label">
-              Description:
-            </span>
+            @if (transferParty(transaction); as party) {
+              <div class="detail-line">
+                <span class="description-label">{{ party.label }}</span>
+                <span class="description-text">{{ formatPartyName(party.accountId) }}</span>
+              </div>
+            }
 
-
-         
-            <span class="description-text">
-
-              {{
-                transaction.description ||
-                'No description provided.'
-              }}
-
-            </span>
+            <div class="detail-line">
+              <span class="description-label">
+                Description:
+              </span>
+              <span class="description-text">
+                {{transaction.description || 'No description provided.'}}
+              </span>
+            </div>
 
           </div>
 

@@ -425,13 +425,18 @@
 */
 
 .transaction-detail-expanded {
-  max-height: 100px;
+  max-height: 140px;
 
   opacity: 1;
 
   padding: 14px 22px;
 
   border-bottom: 1px solid #202851;
+}
+
+/*Adds margin about if its the second line of the detail-line class*/
+.detail-line + .detail-line {
+  margin-top: 6px;
 }
 
 /*
