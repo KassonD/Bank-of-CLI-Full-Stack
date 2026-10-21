@@ -76,7 +76,7 @@ class AuthFlowIntegrationTest {
 
     @Test
     @DisplayName("Registering a username that already exists returns 409")
-    void registerRejectsDuplicateUserName() throws Exception {
+    void registerRejectsDuplicateUsername() throws Exception {
         // first registration succeeds
         mockMvc.perform(post("/api/auth/register")
                         .with(csrf())
@@ -84,7 +84,7 @@ class AuthFlowIntegrationTest {
                         .content(registerJson("ada")))
                 .andExpect(status().isCreated());
 
-        // the second one hits the existsByUserName check in AuthService.register,
+        // the second one hits the existsByUsername check in AuthService.register,
         // which throws ResponseStatusException(CONFLICT)
         mockMvc.perform(post("/api/auth/register")
                         .with(csrf())
@@ -97,7 +97,7 @@ class AuthFlowIntegrationTest {
 
     @Test
     @DisplayName("Registering with a blank username returns 400 from @Valid")
-    void registerRejectsBlankUserName() throws Exception {
+    void registerRejectsBlankUsername() throws Exception {
         // @NotBlank on AccountWriteDTO.username rejects this, but ONLY because
         // the controller parameter is annotated @Valid. Remove @Valid and this
         // test fails with a 201 and a blank username in the database.
