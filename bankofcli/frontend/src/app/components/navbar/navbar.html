@@ -11,7 +11,7 @@
   @if (!userService.isAuthenticated()) {
     <a class="navRight" routerLink="/login" routerLinkActive="active-link">Login</a>
   } @else {
-    <p>{{userName()}}</p>
+    <p>{{username()}}</p>
     <div class="vertical-dotted-line"></div>
     <a class="navRight" (click)="logout()">Logout</a>
   }

@@ -4,7 +4,7 @@ import { catchError, map, Observable, of, shareReplay, switchMap, tap } from 'rx
 import { CsrfToken } from './csrf-token';
 
 export interface AuthResult {
-  userName: string,
+  username: string,
   id: number,
   firstName: string,
   lastName: string,
@@ -30,10 +30,10 @@ export class User {
   }
 
   // Logs in, then loads a new CSRF token because login replaces the cookie, then loads the current user.
-  login(userName: string, password: string): Observable<unknown> {
+  login(username: string, password: string): Observable<unknown> {
     return this.ensureCsrf().pipe(
       switchMap(() =>
-        this.http.post<unknown>(`${this.apiUrl}/login`, { userName, password }),
+        this.http.post<unknown>(`${this.apiUrl}/login`, { username, password }),
       ),
       switchMap(() => this.http.get<unknown>(`${this.apiUrl}/csrf`)),
       switchMap(() => this.loadCurrentUser())
@@ -45,17 +45,17 @@ export class User {
     return this.http.get<AuthResult>(`${this.apiUrl}/me`).pipe(
       tap((user) => {
         this.currentUserId.set(user.id);
-        this.currentUserName.set(user.userName);
+        this.currentUserName.set(user.username);
         this.isAuthenticated.set(true);
       }),
     );
   }
 
   // Creates an account. Does not start a session.
-  register(userName: string, password: string, firstName: string, lastName: string): Observable<unknown> {
+  register(username: string, password: string, firstName: string, lastName: string): Observable<unknown> {
     return this.ensureCsrf().pipe(
       switchMap(() =>
-        this.http.post<unknown>(`${this.apiUrl}/register`, { userName, password, firstName, lastName }),
+        this.http.post<unknown>(`${this.apiUrl}/register`, { username, password, firstName, lastName }),
       ),
     );
   }

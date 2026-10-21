@@ -13,7 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class Navbar {
   protected readonly userService = inject(User);
 
-  userName = signal("");
+  username = signal("");
 
   private readonly router = inject(Router);
   constructor() {
@@ -27,7 +27,7 @@ export class Navbar {
   }
 
   private refresh() {
-    this.userName.set(this.userService.currentUserName() ?? "")
+    this.username.set(this.userService.currentUserName() ?? "")
   }
 
   private logout() {
