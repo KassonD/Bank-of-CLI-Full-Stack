@@ -29,7 +29,7 @@ export class Login {
 
 
 
-  errorMessage = '';
+  errorMessage = signal('');
   successMessage = ''
 
   private router = inject(Router);
@@ -43,18 +43,18 @@ export class Login {
    * Navigates to the home page if successful, otherwise sets an error message.
    */
   attemptLogin() {
-    this.errorMessage = '';
-    const loginSuccessful = this.userService.login(this.usernameInput, this.passwordInput).subscribe({
+    this.errorMessage.set('');
+    this.userService.login(this.usernameInput, this.passwordInput).subscribe({
       next: () => {this.router.navigate(['dashboard']);},
       error: (err) => {
-        this.errorMessage = httpErrorMessage(err, 'login failed, please try again');
+        this.errorMessage.set(httpErrorMessage(err, 'login failed, please try again'));
       }
     });
   }
 
   setMode(newMode: 'login' | 'register') {
     this.mode.set(newMode);
-    this.errorMessage = '';
+    this.errorMessage.set('');
     this.successMessage = '';
     this.passwordInput = '';
     this.confirmPasswordInput = '';
@@ -65,20 +65,20 @@ export class Login {
    * Navigates to the home page if successful, otherwise sets an error message.
    */
   attemptRegister() {
-    this.errorMessage = '';
+    this.errorMessage.set('');
     this.successMessage = '';
 
     if (!this.firstNameInput || !this.lastNameInput) {
-      this.errorMessage = 'first and last name are required.';
+      this.errorMessage.set('first and last name are required.');
       return;
     }
 
     if (!this.usernameInput || !this.passwordInput) {
-      this.errorMessage = 'Username and password are required.';
+      this.errorMessage.set('Username and password are required.');
       return;
     }
     if (this.passwordInput !== this.confirmPasswordInput) {
-      this.errorMessage = 'Passwords do not match.';
+      this.errorMessage.set('Passwords do not match.');
       return;
     }
 
@@ -88,8 +88,8 @@ export class Login {
         this.setMode('login');
       },
       error: (err: HttpErrorResponse) => {
-        this.errorMessage = err.status === 409 ? 'That username is already taken.'
-          : httpErrorMessage(err, 'Something went wrong. Please try again.');
+        this.errorMessage.set(err.status === 409 ? 'That username is already taken.'
+          : httpErrorMessage(err, 'Something went wrong. Please try again.'));
       }
     });
   }
