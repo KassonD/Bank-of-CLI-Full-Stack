@@ -34,7 +34,3 @@ build/
 
 ### Local DB credentials ###
 application-local.properties
-
-### Spring config with credentials ###
-src/main/resources/application.properties
-src/test/resources/application.properties
