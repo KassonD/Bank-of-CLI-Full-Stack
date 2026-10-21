@@ -34,6 +34,7 @@ export class Login {
 
   private router = inject(Router);
   private userService = inject(User);
+  private toastService = inject(ToastService);
   private mode = signal("login");
   
 
@@ -83,7 +84,7 @@ export class Login {
 
     this.userService.register(this.usernameInput, this.passwordInput, this.firstNameInput, this.lastNameInput).subscribe({
       next: () => {
-        this.successMessage = 'Registration successful, you may now log in.';
+        this.toastService.success('Account succesfully registered, you may login with it now');
         this.setMode('login');
       },
       error: (err: HttpErrorResponse) => {

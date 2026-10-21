@@ -138,18 +138,18 @@ export class History implements AfterViewInit {
     return name ? `${name} ${account}` : account;
   }
 
-  //Loads related account names for each Transaction (So we can easily populate Sent to/Recieved from on transfers)
+  //Loads related account names for each Transaction (So we can easily populate Sent to/Received from on transfers)
   private loadPartyNames(transactions: Transaction[]): void {
     for (const transaction of transactions) {
       const id = this.transferParty(transaction)?.accountId;
-      if (id == null || this.accountNames().has(id)) {
+      if (id == null || this.relatedAccountNames().has(id)) {
         continue;
       }
-      this.accountNames.update((current) => new Map(current).set(id, ''));
+      this.relatedAccountNames.update((current) => new Map(current).set(id, ''));
       this.bankService.lookupAccount(id).subscribe({
         next: (account) => {
           const name = [account.firstName, account.lastName].join(', ') || account.username;
-          this.accountNames.update((current) => new Map(current).set(id, name));
+          this.relatedAccountNames.update((current) => new Map(current).set(id, name));
         },
       });
     }
