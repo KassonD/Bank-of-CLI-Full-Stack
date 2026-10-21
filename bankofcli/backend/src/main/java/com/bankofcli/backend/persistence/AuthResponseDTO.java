@@ -7,15 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AuthResponseDTO {
 
-    private final String userName;
+    private final String username;
     private final Integer id;
     private final String firstName;
     private final String lastName;
     private final BigDecimal balance;
-    
     @JsonProperty("username")
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public Integer getId() {
@@ -34,8 +33,8 @@ public class AuthResponseDTO {
         return balance;
     }
 
-    public AuthResponseDTO(String userName, Integer id, String firstName, String lastName, BigDecimal balance) {
-        this.userName = userName;
+    public AuthResponseDTO(String username, Integer id, String firstName, String lastName, BigDecimal balance) {
+        this.username = username;
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,7 +43,7 @@ public class AuthResponseDTO {
 
     public static AuthResponseDTO from(Account account) {
         return new AuthResponseDTO(
-            account.getUserName(),
+            account.getUsername(),
             account.getId(),
             account.getFirstName(),
             account.getLastName(),

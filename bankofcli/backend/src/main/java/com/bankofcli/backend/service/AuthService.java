@@ -43,14 +43,14 @@ public class AuthService {
     @Transactional
     public AuthResponseDTO register(AccountWriteDTO request) {
 
-        if (accountRepo.existsByUserName(request.getUserName())) {
+        if (accountRepo.existsByUsername(request.getUsername())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already in use");
         }
 
         Account account = new Account(
             request.getFirstName(),
             request.getLastName(),
-            request.getUserName(),
+            request.getUsername(),
             passwordEncoder.encode(request.getPassword()));
 
         Account saved = accountRepo.save(account);
@@ -65,7 +65,7 @@ public class AuthService {
             HttpServletResponse servletResponse) {
         Authentication authentication = authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken.unauthenticated(
-                        request.getUserName(), request.getPassword()));
+                        request.getUsername(), request.getPassword()));
 
         if (servletRequest.getSession(false) != null) {
             servletRequest.changeSessionId();
@@ -88,7 +88,7 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public AuthResponseDTO toResponse(Authentication authentication) {
-        Account account = accountRepo.findByUserName(authentication.getName())
+        Account account = accountRepo.findByUsername(authentication.getName())
                 .orElseThrow(() -> new AccountNotFoundException(
                         "No account found for user " + authentication.getName()));
         return AuthResponseDTO.from(account);

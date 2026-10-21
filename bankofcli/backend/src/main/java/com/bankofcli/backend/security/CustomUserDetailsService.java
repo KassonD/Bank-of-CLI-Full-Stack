@@ -25,11 +25,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    Account account = accountRepo.findByUserName(username)
+    Account account = accountRepo.findByUsername(username)
             .orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
 
     return new org.springframework.security.core.userdetails.User(
-            account.getUserName(),
+            account.getUsername(),
             account.getPassword(),
             List.of());
 }
