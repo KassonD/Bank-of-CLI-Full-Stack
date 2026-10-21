@@ -1,13 +1,24 @@
 package com.bankofcli.backend.persistence;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class AccountWriteDTO {
 
+	@NotBlank 
     private String firstName;
+
+	@NotBlank
     private String lastName;
-    @JsonProperty("username")
+
+	@NotBlank
+	@Size(min = 3, max = 50) 
+	@JsonProperty("username")
     private String userName;
+
+	@NotBlank
+	@Size(min = 8, max = 100) 
     private String password;
 
 	public String getFirstName() {
