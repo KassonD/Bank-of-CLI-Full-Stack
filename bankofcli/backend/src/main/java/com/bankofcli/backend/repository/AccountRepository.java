@@ -13,9 +13,9 @@ import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
-    Optional<Account> findByUserName(String userName);
+    Optional<Account> findByUsername(String username);
 
-    boolean existsByUserName(String userName);
+    boolean existsByUsername(String username);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT a FROM Account a WHERE a.id = :id")

@@ -12,4 +12,6 @@ public interface TransactionRepository
             Integer accountId,
             Integer relatedAccountId
     );
+
+    List<Transaction> findByAccount_Id(Integer accountId);
 }
