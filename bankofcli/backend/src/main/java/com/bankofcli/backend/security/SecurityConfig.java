@@ -67,7 +67,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:4200",
                 "http://localhost:3000",
-                "https://localhost:3000"));
+                "https://localhost:3000",
+                "https://main.d2u6l0fubnf37y.amplifyapp.com"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Content-Type", "X-XSRF-TOKEN", "Authorization"));
         configuration.setAllowCredentials(true);
@@ -114,10 +115,7 @@ public class SecurityConfig {
         .secure(cookieSecure));
 
         http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository));
-        csrfTokenRepository.setCookieCustomizer(cookie -> cookie
-        .sameSite(csrfCookieSameSite)
-        .secure(true));
-        http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository));
+
 
         return http.build();
     }
