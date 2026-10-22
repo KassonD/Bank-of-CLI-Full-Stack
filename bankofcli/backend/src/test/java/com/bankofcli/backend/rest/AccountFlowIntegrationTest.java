@@ -54,15 +54,15 @@ class AccountFlowIntegrationTest {
         accountRepository.deleteAll();
     }
 
-    private Account savedAccount(String userName, String balance) {
-        Account account = new Account("Test", "User", userName, "pw");
+    private Account savedAccount(String username, String balance) {
+        Account account = new Account("Test", "User", username, "pw");
         account.setBalance(new BigDecimal(balance));
         return accountRepository.save(account);
     }
 
-    private static String newAccountJson(String userName) {
+    private static String newAccountJson(String username) {
         return "{\"firstName\":\"Ada\",\"lastName\":\"Lovelace\","
-                + "\"userName\":\"" + userName + "\",\"password\":\"s3cret\"}";
+                + "\"username\":\"" + username + "\",\"password\":\"s3cret\"}";
     }
 
     private static String transferJson(int fromId, int toId, String amount) {
@@ -98,7 +98,7 @@ class AccountFlowIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET /api/accounts with an unknown userName returns 404 through the exception handler")
+    @DisplayName("GET /api/accounts with an unknown username returns 404 through the exception handler")
     void unknownUserNameReturnsNotFound() throws Exception {
         mockMvc.perform(get("/api/accounts").param("username", "does-not-exist"))
                 .andExpect(status().isNotFound())
