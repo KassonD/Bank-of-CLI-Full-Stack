@@ -1,8 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { User, UserError } from '../../service/user';
+import { User } from '../../service/user';
 import { FormsModule } from '@angular/forms';
 import { ToastService } from '../../service/toast';
+import { HttpErrorResponse } from '@angular/common/http';
+import { httpErrorMessage } from '../../errors/http.errors';
 
 /**
  * Handles user login functionality.
@@ -27,11 +29,11 @@ export class Login {
 
 
 
-  errorMessage = '';
-  successMessage = ''
+  errorMessage = signal('');
 
   private router = inject(Router);
   private userService = inject(User);
+  private toastService = inject(ToastService);
   private mode = signal("login");
   
 
@@ -39,58 +41,57 @@ export class Login {
    * Attempts to log in using the provided credentials.
    * Navigates to the home page if successful, otherwise sets an error message.
    */
-  async attemptLogin() {
-    this.errorMessage = '';
-    const loginSuccessful = this.userService.login(this.usernameInput, this.passwordInput);
-    if (loginSuccessful) {
-      await this.router.navigate(['dashboard']);
-    } else {
-      this.errorMessage = 'login failed, please try again';
-      
-    }
+  attemptLogin() {
+    this.errorMessage.set('');
+    this.userService.login(this.usernameInput, this.passwordInput).subscribe({
+      next: () => {this.router.navigate(['dashboard']);},
+      error: (err) => {
+        const message = err instanceof HttpErrorResponse && err.status === 401
+          ? 'Wrong username or password.'
+          : httpErrorMessage(err, 'Something went wrong. Please try again.');
+        this.errorMessage.set(message);
+      }
+    });
   }
 
   setMode(newMode: 'login' | 'register') {
-  this.mode.set(newMode);
-  this.errorMessage = '';
-  this.successMessage = '';
-  this.passwordInput = '';
-  this.confirmPasswordInput = '';
-}
-
+    this.mode.set(newMode);
+    this.errorMessage.set('');
+    this.passwordInput = '';
+    this.confirmPasswordInput = '';
+  }
+  
+  /**
+   * Attempts to register using the provided credentials.
+   * Navigates to the home page if successful, otherwise sets an error message.
+   */
   attemptRegister() {
-    this.errorMessage = '';
-    this.successMessage = '';
+    this.errorMessage.set('');
 
     if (!this.firstNameInput || !this.lastNameInput) {
-      this.errorMessage = 'first and last name are required.';
+      this.errorMessage.set('first and last name are required.');
       return;
     }
 
     if (!this.usernameInput || !this.passwordInput) {
-      this.errorMessage = 'Username and password are required.';
+      this.errorMessage.set('Username and password are required.');
       return;
     }
     if (this.passwordInput !== this.confirmPasswordInput) {
-      this.errorMessage = 'Passwords do not match.';
+      this.errorMessage.set('Passwords do not match.');
       return;
     }
 
-    try {
-      this.userService.register(
-        this.usernameInput,
-        this.passwordInput,
-        this.firstNameInput,
-        this.lastNameInput
-      );
-      this.successMessage = 'Registration successful, you may now log in.';
-    } catch (e) {
-      if (e instanceof UserError && e.code === 'ACCOUNT_EXISTS') {
-        this.errorMessage = 'That username is already taken.';
-      } else {
-        this.errorMessage = 'Something went wrong. Please try again.';
+    this.userService.register(this.usernameInput, this.passwordInput, this.firstNameInput, this.lastNameInput).subscribe({
+      next: () => {
+        this.toastService.success('Account succesfully registered, you may login with it now');
+        this.setMode('login');
+      },
+      error: (err: HttpErrorResponse) => {
+        this.errorMessage.set(err.status === 409 ? 'That username is already taken.'
+          : httpErrorMessage(err, 'Something went wrong. Please try again.'));
       }
-    }
+    });
   }
 
   async submit(){

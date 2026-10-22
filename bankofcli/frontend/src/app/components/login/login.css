@@ -131,10 +131,3 @@
   color: #ff3b30; /* iOS system red */
   text-align: left;
 }
-
-.success-message {
-  margin: 0;
-  font-size: 0.8125rem;
-  color: #32ec2b; 
-  text-align: left;
-}
