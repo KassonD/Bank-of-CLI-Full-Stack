@@ -1,4 +1,4 @@
-import { Service } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 export interface CsrfTokenValue {
   value: string;
@@ -6,7 +6,7 @@ export interface CsrfTokenValue {
 }
 
 //Service responsible for storage and retrieval of the CSRF on the front-end
-@Service()
+@Injectable({ providedIn: 'root' })
 export class CsrfToken {
   //Union type holds CSRF Token or NULL (Defaults NULL)
   private token: CsrfTokenValue | null = null;
