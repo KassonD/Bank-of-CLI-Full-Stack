@@ -84,14 +84,17 @@ public class SecurityConfig {
             @Value("${app.security.csrf-cookie.same-site}") String csrfCookieSameSite)
             throws Exception {
 
-        http.authorizeHttpRequests(configurer -> configurer
+                http.authorizeHttpRequests(configurer -> configurer
 
-                .requestMatchers(
-                        "/api/auth/register",
-                        "/api/auth/login",
-                        "/api/auth/logout",
-                        "/api/auth/csrf")
-                .permitAll()
+                    .requestMatchers(
+                            "/api/auth/register",
+                            "/api/auth/login",
+                            "/api/auth/logout",
+                            "/api/auth/csrf")
+                    .permitAll()
+
+                    .requestMatchers(HttpMethod.GET, "/actuator/health", "/actuator/health/**")
+                    .permitAll()
 
                 .anyRequest().authenticated());
 
