@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -256,11 +255,6 @@ class AccountFlowIntegrationTest {
         assertEquals(0, transactionRepository.count(), "no transaction should be recorded");
     }
 
-    // ---------------------------------------------------------------------
-    // The one below documents a real defect. Delete the @Disabled when the
-    // defect is fixed and the test should go green.
-    // ---------------------------------------------------------------------
-
     @Test
     @DisplayName("Account responses do not contain the password")
     void accountResponseDoesNotExposePassword() throws Exception {
@@ -272,9 +266,6 @@ class AccountFlowIntegrationTest {
     }
 
     @Test
-    @Disabled("Defect: Account.balance is never initialised, so a new account persists a null "
-            + "balance and the first deposit or withdrawal throws NullPointerException. Fix with "
-            + "`private BigDecimal balance = BigDecimal.ZERO;` in Account, then remove this @Disabled.")
     @DisplayName("A newly created account starts at a zero balance, not null")
     void newAccountStartsAtZeroBalance() throws Exception {
         mockMvc.perform(post("/api/accounts")
