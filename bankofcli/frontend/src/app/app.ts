@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
+import { User } from './service/user';
 
 @Component({
   imports: [RouterOutlet, Navbar],
@@ -10,4 +11,10 @@ import { Navbar } from './components/navbar/navbar';
 })
 export class App {
   protected readonly title = signal('frontend');
+  private readonly userService = inject(User);
+  
+  //Restores CSRF token when page is refreshed
+  constructor() {
+    this.userService.restoreSession().subscribe();
+  }
 }

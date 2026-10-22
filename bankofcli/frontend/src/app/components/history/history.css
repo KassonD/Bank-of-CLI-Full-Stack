@@ -244,13 +244,9 @@
   TRANSACTION TYPE
   =========================
 
-  The actual data can still be:
-
-  deposit
-  withdraw
-  transfer
-
-  This makes it LOOK like:
+  The API sends DEPOSIT, WITHDRAW, TRANSFER.
+  The template lowercases that, and this rule
+  makes it look like:
 
   Deposit
   Withdraw
@@ -425,13 +421,18 @@
 */
 
 .transaction-detail-expanded {
-  max-height: 100px;
+  max-height: 140px;
 
   opacity: 1;
 
   padding: 14px 22px;
 
   border-bottom: 1px solid #202851;
+}
+
+/*Adds margin about if its the second line of the detail-line class*/
+.detail-line + .detail-line {
+  margin-top: 6px;
 }
 
 /*

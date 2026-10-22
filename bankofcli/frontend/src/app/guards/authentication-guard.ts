@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { User } from '../service/user';
+import { map } from 'rxjs';
 
 /**
  * Route guard that checks if the user is authenticated before allowing access to a route.
@@ -15,11 +16,9 @@ export const authenticationGuard: CanActivateFn = (route, state) => {
   // Inject the Router to perform navigation if the user is not authenticated.
   const router = inject(Router);
 
-  // Check if the user is logged in.
-  if (userService.isLoggedIn()) {
-    return true; // Allow route activation.
-  } else {
-    router.navigate(["login"]); // Redirect to login page.
-    return false; // Block route activation.
-  }
+  // restoreSession() emits true when GET /api/auth/me succeeds and false when it fails
+  // when authenticated is true, the dashboard loads otherwise we redirect to login page
+  return userService.restoreSession().pipe(
+    map((authenticated) => authenticated || router.createUrlTree(['/login'])),
+  );
 };

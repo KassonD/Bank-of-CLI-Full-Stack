@@ -1,7 +1,5 @@
 import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Transaction } from '../../contracts/transaction';
-import { getTransactionsByAccountId } from '../../mock/api';
 import { BankService } from '../../service/bank.service';
 
 @Component({
@@ -16,10 +14,15 @@ export class Analytics {
   transactions = this.bankService.transactions;
 
   moneyIn = computed(() => {
+    const accountId = this.bankService.account()?.id;
     let total = 0;
 
     for (const transaction of this.transactions()) {
-      if (transaction.type == 'deposit') {
+      const type = transaction.type.toLocaleLowerCase();
+      if (type === 'deposit') {
+        total += transaction.amount;
+      }
+      if (type === 'transfer' && transaction.relatedAccountId === accountId) {
         total += transaction.amount;
       }
     }
@@ -28,10 +31,15 @@ export class Analytics {
   });
 
   moneyOut = computed(() => {
+    const accountId = this.bankService.account()?.id;
     let total = 0;
 
     for (const transaction of this.transactions()) {
-      if (transaction.type == 'withdraw' || transaction.type == 'transfer') {
+      const type = transaction.type.toLocaleLowerCase();
+      if (type === 'withdraw') {
+        total += transaction.amount;
+      }
+      if (type === 'transfer' && transaction.accountId === accountId) {
         total += transaction.amount;
       }
     }

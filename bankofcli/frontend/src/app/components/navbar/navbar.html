@@ -4,14 +4,14 @@
   </svg></a>
   <a routerLink="/">Bank of CLI</a>
   <div class="vertical-dotted-line"></div>
-  @if (userService.isLoggedIn()) {
+  @if (userService.isAuthenticated()) {
     <a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
   }
   <div class="fill-gap"></div>
-  @if (!userService.isLoggedIn()) {
+  @if (!userService.isAuthenticated()) {
     <a class="navRight" routerLink="/login" routerLinkActive="active-link">Login</a>
   } @else {
-    <p>{{userName()}}</p>
+    <p>{{userService.currentUserName()}}</p>
     <div class="vertical-dotted-line"></div>
     <a class="navRight" (click)="logout()">Logout</a>
   }
