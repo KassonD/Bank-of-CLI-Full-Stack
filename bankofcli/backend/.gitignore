@@ -34,3 +34,9 @@ build/
 
 ### Local DB credentials ###
 application-local.properties
+
+# Local AWS deployment artifacts
+**/ecs-task-*.json
+
+# Generated frontend deployment archives
+bankofcli/frontend/*.zip

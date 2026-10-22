@@ -67,7 +67,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:4200",
                 "http://localhost:3000",
-                "https://localhost:3000"));
+                "https://localhost:3000",
+                "https://main.d2u6l0fubnf37y.amplifyapp.com"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Content-Type", "X-XSRF-TOKEN", "Authorization"));
         configuration.setAllowCredentials(true);
@@ -80,9 +81,10 @@ public class SecurityConfig {
     // this filter chain determines which routes are protected
     @Bean
     public SecurityFilterChain filterChain(
-            HttpSecurity http,
-            @Value("${app.security.csrf-cookie.same-site}") String csrfCookieSameSite)
-            throws Exception {
+        HttpSecurity http,
+        @Value("${app.security.csrf-cookie.same-site}") String csrfCookieSameSite,
+        @Value("${app.cookie.secure:false}") boolean cookieSecure)
+        throws Exception {
 
                 http.authorizeHttpRequests(configurer -> configurer
 
@@ -105,9 +107,15 @@ public class SecurityConfig {
                 .setStatus(401);
         http.httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(apiAuthenticationEntryPoint));
         http.cors(Customizer.withDefaults());
-        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        csrfTokenRepository.setCookieCustomizer(cookie -> cookie.sameSite(csrfCookieSameSite));
+        CookieCsrfTokenRepository csrfTokenRepository =
+        CookieCsrfTokenRepository.withHttpOnlyFalse();
+
+        csrfTokenRepository.setCookieCustomizer(cookie -> cookie
+        .sameSite(csrfCookieSameSite)
+        .secure(cookieSecure));
+
         http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository));
+
 
         return http.build();
     }
