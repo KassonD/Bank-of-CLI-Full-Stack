@@ -80,9 +80,10 @@ public class SecurityConfig {
     // this filter chain determines which routes are protected
     @Bean
     public SecurityFilterChain filterChain(
-            HttpSecurity http,
-            @Value("${app.security.csrf-cookie.same-site}") String csrfCookieSameSite)
-            throws Exception {
+        HttpSecurity http,
+        @Value("${app.security.csrf-cookie.same-site}") String csrfCookieSameSite,
+        @Value("${app.cookie.secure:false}") boolean cookieSecure)
+        throws Exception {
 
                 http.authorizeHttpRequests(configurer -> configurer
 
@@ -105,8 +106,17 @@ public class SecurityConfig {
                 .setStatus(401);
         http.httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(apiAuthenticationEntryPoint));
         http.cors(Customizer.withDefaults());
-        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        csrfTokenRepository.setCookieCustomizer(cookie -> cookie.sameSite(csrfCookieSameSite));
+        CookieCsrfTokenRepository csrfTokenRepository =
+        CookieCsrfTokenRepository.withHttpOnlyFalse();
+
+        csrfTokenRepository.setCookieCustomizer(cookie -> cookie
+        .sameSite(csrfCookieSameSite)
+        .secure(cookieSecure));
+
+        http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository));
+        csrfTokenRepository.setCookieCustomizer(cookie -> cookie
+        .sameSite(csrfCookieSameSite)
+        .secure(true));
         http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository));
 
         return http.build();
