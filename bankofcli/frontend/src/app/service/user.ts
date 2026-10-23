@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
+import { catchError, map, Observable, of, shareReplay, switchMap, tap, finalize } from 'rxjs';
 import { CsrfToken } from './csrf-token';
 
 export interface AuthResult {
@@ -16,6 +16,7 @@ export interface AuthResult {
 })
 export class User {
   private session$: Observable<boolean> | null = null;
+  private csrfRequest$: Observable<unknown> | null = null;
   private readonly http = inject(HttpClient);
   readonly isAuthenticated = signal(false);
   readonly currentUserId = signal<number | null>(null);
@@ -26,7 +27,22 @@ export class User {
 
   // Fetches a CSRF token only when one is not already stored.
   private ensureCsrf(): Observable<unknown> {
-    return this.csrf.getCurrent() ? of(null) : this.http.get<unknown>(`${this.apiUrl}/csrf`);
+    if (this.csrf.getCurrent()) {
+      return of(null);
+    }
+  
+    if (!this.csrfRequest$) {
+      this.csrfRequest$ = this.http
+        .get<unknown>(`${this.apiUrl}/csrf`)
+        .pipe(
+          finalize(() => {
+            this.csrfRequest$ = null;
+          }),
+          shareReplay({ bufferSize: 1, refCount: true })
+        );
+    }
+  
+    return this.csrfRequest$;
   }
 
   // Logs in, then loads a new CSRF token because login replaces the cookie, then loads the current user.
@@ -80,7 +96,7 @@ export class User {
       return of(true);
     }
     if (!this.session$) {
-      this.session$ = this.http.get<unknown>(`${this.apiUrl}/csrf`).pipe(
+      this.session$ = this.ensureCsrf().pipe(
         switchMap(() => this.loadCurrentUser()),
         map(() => true),
         catchError(() => {
